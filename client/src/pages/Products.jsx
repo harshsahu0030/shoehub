@@ -15,7 +15,7 @@ const Products = () => {
   //useLayout
   useLayoutEffect(() => {
     backToTopHanlder();
-  }, [backToTopHanlder]);
+  }, []);
   return (
     <>
       <MetaData

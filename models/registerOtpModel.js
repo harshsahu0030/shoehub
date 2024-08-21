@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const redisterOtpModel = new mongoose.Schema(
   {
     otp: {
-      type: Number,
+      type: String,
       requred: true,
     },
     username: {

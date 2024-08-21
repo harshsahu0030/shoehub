@@ -75,7 +75,6 @@ const productSchema = new mongoose.Schema(
 
     discount: {
       type: Number,
-      required: true,
     },
 
     sizes: [
@@ -149,6 +148,14 @@ const productSchema = new mongoose.Schema(
 
   { timestamps: true }
 );
+
+productSchema.pre("save", async function (next) {
+  if (this.isModified("mrp") || this.isModified("price")) {
+    this.discount = Math.floor(((this.mrp - this.price) / this.mrp) * 100);
+  }
+
+  next();
+});
 
 export default mongoose.models.products ||
   mongoose.model("products", productSchema);

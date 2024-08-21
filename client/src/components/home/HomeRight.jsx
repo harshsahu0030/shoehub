@@ -3,9 +3,22 @@ import HomeHeading from "./HomeHeading";
 import ImageLoader from "../loaders/ImageLoader";
 import BannerImage from "./BannerImage";
 import ProductCardSwiper from "../productCardSwiper/ProductCardSwiper";
+import { useQuery } from "@tanstack/react-query";
+import { getAllProductsApi } from "../../app/api/productApi";
 
 const HomeRight = ({ data }) => {
   const temp = [];
+
+  //react-queries
+  const {
+    isError,
+    data: productsData,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: ["get-all-products"],
+    queryFn: getAllProductsApi,
+  });
 
   return (
     <div className="container flex flex-col gap-5 overflow-hidden">
@@ -17,7 +30,7 @@ const HomeRight = ({ data }) => {
         url=""
       />
       <div className="container">
-        <ProductCardSwiper data={temp} />
+        <ProductCardSwiper data={productsData?.data?.products} />
       </div>
 
       {/* banner  */}

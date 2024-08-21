@@ -6,7 +6,7 @@ const SearchBox = () => {
       <input
         type="text"
         name="search"
-        placeholder="search for products..."
+        placeholder="search..."
         className="container h-full outline-none border-2 border-lightGray bg-transparent pl-4 pr-20 bg-slate-200 rounded-lg transition-all duration-200 ease-in-out focus:border-cyan text-lg font-medium"
       />
       <RiSearch2Line

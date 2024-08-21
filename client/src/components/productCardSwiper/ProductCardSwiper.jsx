@@ -30,24 +30,12 @@ const ProductCardSwiper = ({ data }) => {
           className="h-[100%] w-[100%] overflow-hidden"
           onSlideChange={(swiper) => setSwiperchange(swiper.activeIndex)}
         >
-          <SwiperSlide>
-            <ProductCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <ProductCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <ProductCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <ProductCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <ProductCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <ProductCard />
-          </SwiperSlide>
+          {data?.map((item) => (
+            <SwiperSlide key={item._id}>
+              <ProductCard data={item} />
+            </SwiperSlide>
+          ))}
+
           <SwiperButtons swiperchange={swiperchange} />
         </Swiper>
       ) : (
@@ -58,7 +46,7 @@ const ProductCardSwiper = ({ data }) => {
           className="h-[100%] w-[100%] overflow-hidden"
           onSlideChange={(swiper) => setSwiperchange(swiper.activeIndex)}
         >
-          {[...Array(4)].map((_, i) => (
+          {[...Array(width <= 640 ? 2 : width <= 1024 ? 3 : 4)].map((_, i) => (
             <SwiperSlide key={i}>
               <ProductCardLoader />
             </SwiperSlide>

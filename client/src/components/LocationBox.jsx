@@ -15,9 +15,11 @@ const LocationBox = () => {
     if (value === "open") {
       toggleLocationRef.current.style.visibility = "visible";
       toggleLocationRef.current.style.opacity = 1;
+      document.body.style.overflow = "hidden";
     } else {
       toggleLocationRef.current.style.visibility = "hidden";
       toggleLocationRef.current.style.opacity = 0;
+      document.body.style.overflow = "visible";
     }
   };
 

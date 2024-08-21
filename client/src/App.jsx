@@ -1,10 +1,19 @@
 import { Suspense } from "react";
 import { RouterProvider } from "react-router-dom";
 import { createBrowserRouter } from "react-router-dom";
-import { AuthenticatedUser, Authentication, Layout } from "./Layout";
+import { AdminUser, AuthenticatedUser, Authentication, Layout } from "./Layout";
 import { lazy } from "react";
 import Error from "./pages/Error.jsx";
 import Loader from "./components/loaders/Loader.jsx";
+import OtpVerification from "./pages/OtpVerification.jsx";
+import Dashboard from "./pages/Admin/Dashboard.jsx";
+import AdminProducts from "./pages/Admin/AdminProducts.jsx";
+import AdminOrders from "./pages/Admin/AdminOrders.jsx";
+import AdminUsers from "./pages/Admin/AdminUsers.jsx";
+import Admin from "./pages/Admin/Admin.jsx";
+import CreateProduct from "./pages/Admin/CreateProduct.jsx";
+import AdminError from "./pages/Admin/AdminError.jsx";
+import UpdateProducts from "./pages/Admin/UpdateProducts.jsx";
 
 //routes import
 const Home = lazy(() => import("./pages/Home.jsx"));
@@ -46,7 +55,7 @@ const App = () => {
           element: <Products />,
         },
         {
-          path: "products/:gender/:category/:title",
+          path: "products/:gender/:category/:id",
           element: <Product />,
         },
         {
@@ -63,6 +72,7 @@ const App = () => {
       path: "/",
       element: <Authentication />,
       errorElement: <Error />,
+      lazy,
       children: [
         {
           path: "sign-in",
@@ -80,12 +90,17 @@ const App = () => {
           path: "reset-password/:token",
           element: <ResetPassword />,
         },
+        {
+          path: "otp-verification/:otpid",
+          element: <OtpVerification />,
+        },
       ],
     },
     {
       path: "/",
       element: <AuthenticatedUser />,
       errorElement: <Error />,
+      lazy,
       children: [
         {
           path: "profile",
@@ -102,6 +117,42 @@ const App = () => {
         {
           path: "update-password",
           element: <UpdatePassword />,
+        },
+      ],
+    },
+    {
+      path: "/admin",
+      element: <AdminUser />,
+      errorElement: <AdminError />,
+      lazy,
+      children: [
+        {
+          path: "",
+          element: <Admin />,
+        },
+        {
+          path: "dashboard",
+          element: <Dashboard />,
+        },
+        {
+          path: "products",
+          element: <AdminProducts />,
+        },
+        {
+          path: "products/create",
+          element: <CreateProduct />,
+        },
+        {
+          path: "products/:id",
+          element: <UpdateProducts />,
+        },
+        {
+          path: "orders",
+          element: <AdminOrders />,
+        },
+        {
+          path: "users",
+          element: <AdminUsers />,
         },
       ],
     },

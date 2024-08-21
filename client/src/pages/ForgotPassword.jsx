@@ -4,6 +4,9 @@ import BasicInput from "../components/inputs/BasicInput";
 import { MdOutlineMailOutline } from "react-icons/md";
 import useBackToTop from "../hook/useBackToTop";
 import MetaData from "../utils/MetaData";
+import toast from "react-hot-toast";
+import { useMutation } from "@tanstack/react-query";
+import { forgotPasswordUserApi } from "../app/api/userApi";
 
 const ForgotPassword = () => {
   //states
@@ -15,6 +18,18 @@ const ForgotPassword = () => {
   //errorHandling
   const validationSchema = Yup.object({
     email: Yup.string().required("Email is Required"),
+  });
+
+  //react quires
+  const { mutate, isPending } = useMutation({
+    mutationFn: forgotPasswordUserApi,
+
+    onError: (error) => {
+      toast.error(error.response.data.message);
+    },
+    onSuccess: (data) => {
+      toast.success(data.message);
+    },
   });
 
   //functons
@@ -32,6 +47,7 @@ const ForgotPassword = () => {
       await validationSchema.validate(forgotPasswordForm, {
         abortEarly: false,
       });
+      mutate(forgotPasswordForm);
     } catch (error) {
       const newErrors = {};
 
@@ -87,9 +103,10 @@ const ForgotPassword = () => {
 
           <button
             type="submit"
-            className="bg-blue text-white py-2 rounded-lg font-semibold transition-all ease-in-out duration-300 hover:bg-cyan"
+            className="bg-blue text-white py-2 rounded-lg font-semibold transition-all ease-in-out duration-300 hover:bg-cyan disabled:bg-gray"
+            disabled={isPending}
           >
-            Submit
+            {isPending ? "Loading..." : "Submit"}
           </button>
         </form>
       </div>

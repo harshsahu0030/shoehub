@@ -7,7 +7,7 @@ import { AiOutlineUser } from "react-icons/ai";
 import { IoMenu } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { navbar } from "../data/navbar";
-import { createElement, useRef } from "react";
+import { createElement, useEffect, useRef } from "react";
 import Sliderbar from "./Sliderbar";
 
 const Navbar = () => {
@@ -23,13 +23,17 @@ const Navbar = () => {
       toggleSliderbarRef.current.style.left = "0";
       toggleSliderbarRef.current.style.width = "100%";
       toggleSliderbarRef.current.style.opacity = 1;
+      document.body.style.overflow = "hidden";
     } else {
       toggleSliderbarRef.current.style.visibility = "hidden";
       toggleSliderbarRef.current.style.left = "100%";
       toggleSliderbarRef.current.style.width = "0%";
       toggleSliderbarRef.current.style.opacity = 0;
+      document.body.style.overflow = "visible";
     }
   };
+
+  useEffect(() => {}, []);
 
   return (
     <div className="container h-[100%] text-md flex items-center gap-6 py-1 md:py-2 justify-between">

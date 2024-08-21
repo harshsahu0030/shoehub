@@ -11,6 +11,8 @@ const BasicInput = ({
   value,
   onChange,
   error,
+  defaultValue,
+  disabled,
 }) => {
   //ref
   const inpurRef = useRef();
@@ -32,19 +34,21 @@ const BasicInput = ({
           className="absolute inset-y-0 start-0 flex items-center p-3.5 cursor-pointer"
           onClick={() => handlePasswordLook(type)}
         >
-          {createElement(icon)}
+          {icon && createElement(icon)}
         </div>
         <input
           ref={inpurRef}
-          type={type}
-          id={id}
-          name={name}
-          className="bg-transparent outline-none border-2 border-lightGray focus:border-blue text-black text-base rounded-lg w-full pl-10 p-2"
-          placeholder={placeholder}
-          value={value}
-          onChange={onChange}
+          type={type && type}
+          id={id && id}
+          name={name && name}
+          className="bg-transparent outline-none border-2 border-lightGray focus:border-blue text-base rounded-lg w-full pl-10 p-2 disabled:bg-lightGray/20"
+          placeholder={placeholder && placeholder}
+          value={value && value}
+          onChange={onChange && onChange}
           autoComplete="off"
-        ></input>
+          defaultValue={defaultValue && defaultValue}
+          disabled={disabled && disabled}
+        />
       </div>
       {error && (
         <span className="text-sm text-red-400 font-medium">{error}</span>
@@ -58,11 +62,13 @@ BasicInput.propTypes = {
   label: propTypes.string,
   icon: propTypes.func,
   type: propTypes.string,
+  defaultValue: propTypes.number,
   name: propTypes.string,
   placeholder: propTypes.string,
   value: propTypes.string,
   onChange: propTypes.func,
   error: propTypes.string,
+  disabled: propTypes.bool,
 };
 
 export default BasicInput;

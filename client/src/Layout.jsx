@@ -3,6 +3,9 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Menu from "./components/Menu";
 import Navbar from "./components/Navbar";
+import AdminNavbar from "./components/Admin/AdminNavbar";
+import { useContext } from "react";
+import { AuthContext } from "./context/Authuser";
 
 export const Layout = () => {
   return (
@@ -27,7 +30,7 @@ export const Layout = () => {
 };
 
 export const Authentication = () => {
-  const isUser = false;
+  const { isUser } = useContext(AuthContext);
 
   if (!isUser) {
     return (
@@ -55,7 +58,7 @@ export const Authentication = () => {
 };
 
 export const AuthenticatedUser = () => {
-  const isUser = false;
+  const { isUser } = useContext(AuthContext);
 
   if (isUser) {
     return (
@@ -79,5 +82,22 @@ export const AuthenticatedUser = () => {
     );
   } else {
     return <Navigate to="/sign-in" />;
+  }
+};
+
+export const AdminUser = () => {
+  const { currentUser } = useContext(AuthContext);
+
+  if (currentUser.role === "admin") {
+    return (
+      <div className="flex flex-col gap-3 h-[100vh] container px-2 lg:px-4 xl:px-8 2xl:px-16 bg-slate-800">
+        <nav className="container h-[8vh] xl:h-[11vh] sticky top-0 left-0 z-20 bg-slate-900 rounded-lg mt-2">
+          <AdminNavbar />
+        </nav>
+        <main className="h-[92vh] xl:h-[89vh] flex flex-col mb-2">
+          <Outlet />
+        </main>
+      </div>
+    );
   }
 };

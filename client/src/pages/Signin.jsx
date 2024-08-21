@@ -1,30 +1,49 @@
-import { useLayoutEffect, useState } from "react";
+import { useContext, useLayoutEffect, useState } from "react";
 import * as Yup from "yup";
 import BasicInput from "../components/inputs/BasicInput";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useBackToTop from "../hook/useBackToTop";
 import MetaData from "../utils/MetaData";
+import { loginUserApi } from "../app/api/userApi";
+import { useMutation } from "@tanstack/react-query";
+import toast from "react-hot-toast";
+import { AuthContext } from "../context/Authuser";
 
 const Signin = () => {
+  const navigate = useNavigate();
+  const { refetch: userRefetch } = useContext(AuthContext);
+
   //states
   const [errors, setErrors] = useState({});
   const [signinForm, setSigninForm] = useState({
-    email: "",
+    input: "",
     password: "",
   });
 
   //errorHandling
   const validationSchema = Yup.object({
-    email: Yup.string()
-      .required("Email is Required")
-      .email("Invalid email format"),
+    input: Yup.string().required("Input is Required"),
 
     password: Yup.string().required("Password is required"),
   });
 
-  //functons
+  //react quires
+  const { mutate, isPending } = useMutation({
+    mutationFn: loginUserApi,
+
+    onError: (error) => {
+      toast.error(error.response.data.message);
+    },
+    onSuccess: (data) => {
+      toast.success(data.message);
+      userRefetch();
+      navigate(`/`);
+    },
+  });
+
+  //functions
   const handleChange = (e) => {
     setSigninForm({ ...signinForm, [e.target.name]: e.target.value });
   };
@@ -34,6 +53,7 @@ const Signin = () => {
 
     try {
       await validationSchema.validate(signinForm, { abortEarly: false });
+      mutate(signinForm);
     } catch (error) {
       const newErrors = {};
 
@@ -75,15 +95,15 @@ const Signin = () => {
 
           <div className="flex flex-col gap-3">
             <BasicInput
-              id={"signin-email"}
-              label={"Your Email"}
+              id={"signin-input"}
+              label={"Your Username or Email"}
               icon={MdOutlineMailOutline}
               type={"text"}
-              name={"email"}
-              placeholder="example01@gmail.com"
-              value={signinForm.email}
+              name={"input"}
+              placeholder="username or email"
+              value={signinForm.input}
               onChange={handleChange}
-              error={errors.email}
+              error={errors.input}
             />
 
             <BasicInput
@@ -110,7 +130,7 @@ const Signin = () => {
             type="submit"
             className="bg-blue text-white py-2 rounded-lg font-semibold transition-all ease-in-out duration-300 hover:bg-cyan"
           >
-            Submit
+            {isPending ? "Loding..." : "Submit"}
           </button>
 
           <p className="text-sm font-medium">

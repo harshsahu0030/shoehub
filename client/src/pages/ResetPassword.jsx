@@ -4,9 +4,15 @@ import MetaData from "../utils/MetaData";
 import { useLayoutEffect, useState } from "react";
 import * as Yup from "yup";
 import useBackToTop from "../hook/useBackToTop";
+import { useMutation } from "@tanstack/react-query";
+import { resetPasswordUserApi } from "../app/api/userApi";
+import toast from "react-hot-toast";
+import { useNavigate, useParams } from "react-router-dom";
 
 const ResetPassword = () => {
   const backToTopHanlder = useBackToTop();
+  const { token } = useParams();
+  const navigate = useNavigate();
 
   //states
   const [errors, setErrors] = useState({});
@@ -29,6 +35,19 @@ const ResetPassword = () => {
       .matches(/[a-z]/, "Password must contain at least one lowercase letter"),
   });
 
+  //react quires
+  const { mutate, isPending } = useMutation({
+    mutationFn: resetPasswordUserApi,
+
+    onError: (error) => {
+      toast.error(error.response.data.message);
+    },
+    onSuccess: (data) => {
+      toast.success(data.message);
+      navigate("/sign-in");
+    },
+  });
+
   //functons
   const handleChange = (e) => {
     setResetPassword({ ...resetPassword, [e.target.name]: e.target.value });
@@ -39,6 +58,7 @@ const ResetPassword = () => {
 
     try {
       await validationSchema.validate(resetPassword, { abortEarly: false });
+      mutate({ resetPassword, token });
     } catch (error) {
       const newErrors = {};
 
@@ -101,9 +121,10 @@ const ResetPassword = () => {
 
           <button
             type="submit"
-            className="bg-blue text-white py-2 rounded-lg font-semibold transition-all ease-in-out duration-300 hover:bg-cyan"
+            className="bg-blue text-white py-2 rounded-lg font-semibold transition-all ease-in-out duration-300 hover:bg-cyan disabled:bg-gray"
+            disabled={isPending}
           >
-            Submit
+            {isPending ? "Loading..." : "Submit"}
           </button>
         </form>
       </div>

@@ -5,8 +5,7 @@ import asyncHandler from "../utils/asyncHanlder.js";
 
 //authenticated user
 export const isAuthenticated = asyncHandler(async (req, res, next) => {
-  const token =
-    req.cookies?.token || req.header("Authorization")?.replace("Bearer ", "");
+  const token = req.cookies?.token;
 
   if (!token) {
     throw new ApiError(401, "Please login first");

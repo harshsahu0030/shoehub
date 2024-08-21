@@ -5,8 +5,6 @@ import { connectDatabase } from "./database/database.js";
 //dotenv
 dotenv.config({ path: "./config/config.env" });
 
-//app listen
-
 //database
 connectDatabase()
   .then(() =>

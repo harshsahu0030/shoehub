@@ -1,16 +1,23 @@
 import express from "express";
 import {
+  addCartController,
+  addWishlistController,
   deleteUserRoleController,
   findAllUsersController,
   findUserController,
   forgotUserPasswordController,
+  getUserCartController,
+  getUserWishlistController,
   loadUserController,
   loginUserController,
   logoutUserController,
   registerUserController,
   registerUserVerificationController,
+  removeCartController,
+  removeWishlistController,
   resendRegisterUserVerificationOtpController,
   resetUserPasswordController,
+  updateCartController,
   updateUserPasswordController,
   updateUserProfileController,
   updateUserRoleController,
@@ -18,6 +25,13 @@ import {
 import { authorizeRoles, isAuthenticated } from "../middlewares/auth.js";
 
 const router = express.Router();
+
+//testing route
+router
+  .route("/testing")
+  .get((_, res) =>
+    res.status(200).json({ sucess: true, message: "Testing Successfull" })
+  );
 
 //register user
 router.route("/register").post(registerUserController);
@@ -56,6 +70,34 @@ router.route("/forgot/password").post(forgotUserPasswordController);
 
 //reset password
 router.route("/reset/password/:token").put(resetUserPasswordController);
+
+//-----------------------------------------------------------------------------
+//wishlist
+
+//get wishlist
+router.route("/wishlist").get(isAuthenticated, getUserWishlistController);
+
+//add wishlist
+//remove wishlist
+router
+  .route("/wishlist/:id")
+  .post(isAuthenticated, addWishlistController)
+  .delete(isAuthenticated, removeWishlistController);
+
+//-----------------------------------------------------------------------------
+//cart
+
+//get cart
+router.route("/cart").get(isAuthenticated, getUserCartController);
+
+//update cart
+//add cart
+//delete cart
+router
+  .route("/cart/:id")
+  .post(isAuthenticated, addCartController)
+  .put(isAuthenticated, updateCartController)
+  .delete(isAuthenticated, removeCartController);
 
 //-----------------------------------------------------------------------------
 //admin routes

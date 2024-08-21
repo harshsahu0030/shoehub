@@ -1,9 +1,21 @@
 import propTypes from "prop-types";
 import { IoStarOutline, IoStar, IoStarHalf } from "react-icons/io5";
+import moment from "moment";
 
 const ProductDetails = ({ product }) => {
-  const { brand, title, mrp, price, discount, sizes, ratings, numOfReviews } =
-    product;
+  const {
+    brand,
+    title,
+    mrp,
+    price,
+    discount,
+    sizes,
+    ratings,
+    numOfReviews,
+    _id,
+    createdAt,
+  } = product;
+
   return (
     product && (
       <div className="flex flex-col gap-5">
@@ -77,6 +89,18 @@ const ProductDetails = ({ product }) => {
           <button className="w-full py-3 border-2 border-lightGray rounded-md hover:bg-lightGray/30  transition-all ease-in-out duration-150">
             ADD TO WISHLIST
           </button>
+        </div>
+
+        {/* id  */}
+        <div className="flex flex-col text-sm self-end font-semibold text-gray">
+          <div className="flex items-center gap-3">
+            <span>Product Id:</span>
+            <span>{_id}</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <span>Created At:</span>
+            <span>{moment(createdAt).fromNow()}</span>
+          </div>
         </div>
       </div>
     )

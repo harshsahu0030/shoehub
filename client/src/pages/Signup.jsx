@@ -4,13 +4,17 @@ import BasicInput from "../components/inputs/BasicInput";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { AiOutlineUser } from "react-icons/ai";
-
-import { Link } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import { Link, useNavigate } from "react-router-dom";
 import useBackToTop from "../hook/useBackToTop";
 import MetaData from "../utils/MetaData";
+import { registerUserApi } from "../app/api/userApi";
+import toast from "react-hot-toast";
 
 const Signup = () => {
   const backToTopHanlder = useBackToTop();
+  const navigate = useNavigate();
+
   //states
   const [errors, setErrors] = useState({});
   const [signUpForm, setSignUpForm] = useState({
@@ -40,6 +44,19 @@ const Signup = () => {
       .matches(/[a-z]/, "Password must contain at least one lowercase letter"),
   });
 
+  //react quires
+  const { mutate, isPending } = useMutation({
+    mutationFn: registerUserApi,
+
+    onError: (error) => {
+      toast.error(error.response.data.message);
+    },
+    onSuccess: (data) => {
+      toast.success(data.message);
+      navigate(`/otp-verification/${data && data.data.otpId}`);
+    },
+  });
+
   //functons
   const handleChange = (e) => {
     setSignUpForm({ ...signUpForm, [e.target.name]: e.target.value });
@@ -50,6 +67,7 @@ const Signup = () => {
 
     try {
       await validationSchema.validate(signUpForm, { abortEarly: false });
+      mutate(signUpForm);
     } catch (error) {
       const newErrors = {};
 
@@ -60,7 +78,7 @@ const Signup = () => {
       setErrors(newErrors);
     }
   };
-  
+
   useLayoutEffect(() => {
     backToTopHanlder();
   }, []);
@@ -120,17 +138,14 @@ const Signup = () => {
               onChange={handleChange}
               error={errors.password}
             />
-
-            <Link to={""} className="text-sm text-end font-medium text-blue">
-              forgot password?
-            </Link>
           </div>
 
           <button
             type="submit"
-            className="bg-blue text-white py-2 rounded-lg font-semibold transition-all ease-in-out duration-300 hover:bg-cyan"
+            className="bg-blue text-white py-2 rounded-lg font-semibold transition-all ease-in-out duration-300 hover:bg-cyan disabled:bg-lightGray"
+            disabled={isPending}
           >
-            Submit
+            {isPending ? "loading..." : "Submit"}
           </button>
 
           <p className="text-sm font-medium">
