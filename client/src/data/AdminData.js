@@ -32,5 +32,9 @@ export const admin_Tables = {
     "mrp",
     "price",
     "action",
+    "created At",
+    "updated At",
+    "set",
   ],
+  users_tables: ["s no.", "id", "username", "email", "joined At", "set"],
 };

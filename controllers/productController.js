@@ -4,15 +4,46 @@ import ApiError from "../utils/ApiError.js";
 import asyncHandler from "../utils/asyncHanlder.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import cloudinary from "cloudinary";
+import ProductApiFeatures from "../featues/ProductApiFeatures.js";
 
 //get product details
 export const getAllProductsController = asyncHandler(async (req, res) => {
-  const products = await ProductModel.find();
+  const resultPerPage = req.query.limit ? req.query.limit : 16;
+  const productsCount = await ProductModel.countDocuments();
+
+  let apiFeature = new ProductApiFeatures(
+    ProductModel.find(),
+    req.query && req.query
+  )
+    .search()
+    .primitiveFilters()
+    .arrayFilters()
+    .filter();
+
+  let products = await apiFeature.query;
+
+  let filteredProductsCount = products.length;
+
+  apiFeature = new ProductApiFeatures(
+    ProductModel.find(),
+    req.query && req.query
+  )
+    .search()
+    .primitiveFilters()
+    .arrayFilters()
+    .filter()
+    .sort()
+    .pagination(resultPerPage);
+
+  products = await apiFeature.query;
 
   return res.status(200).json(
     new ApiResponse(
       200,
       {
+        productsCount,
+        resultPerPage,
+        filteredProductsCount,
         products,
       },
       null

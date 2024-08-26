@@ -1,15 +1,18 @@
-import { useEffect, useLayoutEffect } from "react";
+import { useContext, useEffect, useLayoutEffect } from "react";
 import useBackToTop from "../hook/useBackToTop";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { profile_data } from "../data/profile";
 import MetaData from "../utils/MetaData";
 import { useQuery } from "@tanstack/react-query";
 import { logoutUserApi } from "../app/api/userApi";
 import toast from "react-hot-toast";
+import { AuthContext } from "../context/Authuser";
 
 const Profile = () => {
   const backToTopHanlder = useBackToTop();
+  const navigate = useNavigate();
+  const { refetch: loadRefetch } = useContext(AuthContext);
 
   //react queries
   const { isError, isSuccess, data, error, refetch } = useQuery({
@@ -25,8 +28,10 @@ const Profile = () => {
     }
     if (isSuccess) {
       toast.success(data.message);
+      navigate("/");
+      loadRefetch();
     }
-  }, [isError, isSuccess, data, error]);
+  }, [isError, isSuccess, data, error, navigate, loadRefetch]);
 
   useLayoutEffect(() => {
     backToTopHanlder();

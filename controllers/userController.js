@@ -66,7 +66,7 @@ export const registerUserController = asyncHandler(async (req, res) => {
 });
 
 //-----------------------------------------------------------------------------
-//registeratin user verfication
+//registeration user verfication
 export const registerUserVerificationController = asyncHandler(
   async (req, res) => {
     const { id } = req.params;
@@ -109,6 +109,7 @@ export const registerUserVerificationController = asyncHandler(
 
     // options for cookie
     const options = {
+      Expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
       httpOnly: true,
       secure: true,
     };
@@ -185,6 +186,7 @@ export const loginUserController = asyncHandler(async (req, res) => {
 
   // options for cookie
   const options = {
+    Expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
     httpOnly: true,
     secure: true,
   };
@@ -477,6 +479,10 @@ export const addCartController = asyncHandler(async (req, res) => {
 
   if (!product) {
     throw new ApiError(400, "Product not found");
+  }
+
+  if (!size || !quantity) {
+    throw new ApiError(400, "Please select size not found");
   }
 
   let isPresent = user.cart.find(

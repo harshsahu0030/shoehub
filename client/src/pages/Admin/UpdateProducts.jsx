@@ -4,6 +4,7 @@ import ProductForm from "../../components/Admin/ProductForm";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { getProductsApi, updateProductApi } from "../../app/api/productApi";
+import { useEffect } from "react";
 
 const UpdateProducts = () => {
   const navigate = useNavigate();
@@ -14,7 +15,6 @@ const UpdateProducts = () => {
     isError,
     data: productsData,
     error,
-    refetch,
   } = useQuery({
     queryKey: ["get-product"],
     queryFn: () => getProductsApi(id),
@@ -32,6 +32,13 @@ const UpdateProducts = () => {
     },
   });
 
+  //useEffect
+  useEffect(() => {
+    if (isError) {
+      toast.error(error.response.data.message);
+    }
+  }, [isError, error]);
+
   return (
     <div className="container h-[85vh] flex flex-col gap-2 bg-slate-900 rounded-lg p-4 text-white scrollbar scrollbar-w-2 scrollbar-thumb-lightGray scrollbar-track-lightGray/20 overflow-y-scroll">
       <div className="flex justify-between items-center pb-4 border-b">
@@ -44,11 +51,15 @@ const UpdateProducts = () => {
         </button>
       </div>
       <div>
-        <ProductForm
-          mutate={mutate}
-          isPending={isPending}
-          data={productsData?.data?.product}
-        />
+        {id ? (
+          <ProductForm
+            mutate={mutate}
+            isPending={isPending}
+            data={productsData?.data?.product}
+          />
+        ) : (
+          "No product Found"
+        )}
       </div>
     </div>
   );

@@ -5,10 +5,10 @@ import ImagesThumb from "../components/product/ImagesThumb";
 import ProductDetails from "../components/product/ProductDetails";
 import AddtionalDetails from "../components/product/AddtionalDetails";
 import MetaData from "../utils/MetaData";
-import { useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import { getProductsApi } from "../app/api/productApi";
+import { useQuery } from "@tanstack/react-query";
 
 const Product = () => {
   const backToTopHanlder = useBackToTop();
@@ -22,7 +22,6 @@ const Product = () => {
   } = useQuery({
     queryKey: ["get-product"],
     queryFn: () => getProductsApi(id),
-    refetchOnWindowFocus: false,
   });
 
   useEffect(() => {

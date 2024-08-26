@@ -67,6 +67,21 @@ const Menu = () => {
 
           <li className="h-full container">
             <NavLink
+              to="/contact"
+              className={({ isActive, isPending }) =>
+                isPending
+                  ? ""
+                  : isActive
+                  ? "uppercase border-b-4 text-blue h-full flex items-center justify-center"
+                  : "uppercase h-full flex items-center justify-center border-b-4 border-transparent hover:border-blue"
+              }
+            >
+              CONTACT
+            </NavLink>
+          </li>
+
+          <li className="h-full container">
+            <NavLink
               to="/blog"
               className={({ isActive, isPending }) =>
                 isPending

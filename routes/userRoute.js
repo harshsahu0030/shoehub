@@ -75,7 +75,7 @@ router.route("/reset/password/:token").put(resetUserPasswordController);
 //wishlist
 
 //get wishlist
-router.route("/wishlist").get(isAuthenticated, getUserWishlistController);
+router.route("/wishlists").get(isAuthenticated, getUserWishlistController);
 
 //add wishlist
 //remove wishlist

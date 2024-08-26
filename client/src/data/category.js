@@ -1,20 +1,6 @@
 import { BiFemale, BiMale } from "react-icons/bi";
-import { MdOutlineFamilyRestroom } from "react-icons/md";
 
 export const categories = [
-  {
-    gender: "all",
-    icon: MdOutlineFamilyRestroom,
-    types: [
-      "oxfords",
-      "loafers",
-      "boots",
-      "sneakers",
-      "heels",
-      "running shoes",
-      "dress shoes",
-    ],
-  },
   {
     gender: "men",
     icon: BiMale,
@@ -24,9 +10,7 @@ export const categories = [
       "boots",
       "sneakers",
       "sandal",
-      "heels",
       "running shoes",
-      "dress shoes",
     ],
   },
   {
@@ -39,18 +23,13 @@ export const categories = [
       "sneakers",
       "heels",
       "running shoes",
-      "dress shoes",
     ],
   },
 ];
 
-export const gender_data = ["all", "men", "women"];
+export const gender_data = ["men", "women"];
 
 export const sizes_data = [
-  {
-    gender: "all",
-    sizes: [4, 5, 6, 7, 8, 9, 10],
-  },
   {
     gender: "men",
     sizes: [5, 6, 7, 8, 9, 10],
@@ -95,6 +74,8 @@ export const products_discount = [
     value: 80,
   },
 ];
+
+export const product_rating_data = [0, 1, 2, 3, 4];
 
 export const product_action_data = ["active", "disabled"];
 

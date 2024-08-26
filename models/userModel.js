@@ -91,9 +91,7 @@ userSchema.methods.isPasswordCorrect = async function (password) {
 
 //generate JWT token
 userSchema.methods.generateJWTToken = async function () {
-  return jwt.sign({ _id: this._id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRE,
-  });
+  return jwt.sign({ _id: this._id }, process.env.JWT_SECRET);
 };
 
 // Generating Password Reset Token

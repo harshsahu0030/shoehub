@@ -1,9 +1,12 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AdminSidebar from "../../components/Admin/AdminSidebar";
 import SearchBox from "../../components/SearchBox";
 import { getAllProductsApi } from "../../app/api/productApi";
 import { useQuery } from "@tanstack/react-query";
 import { admin_Tables } from "../../data/AdminData";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
+import moment from "moment";
 
 const AdminProducts = () => {
   const navigate = useNavigate();
@@ -13,11 +16,17 @@ const AdminProducts = () => {
     isError,
     data: productsData,
     error,
-    refetch,
   } = useQuery({
     queryKey: ["get-all-products"],
     queryFn: getAllProductsApi,
   });
+
+  //useEffect
+  useEffect(() => {
+    if (isError) {
+      toast.error(error.response.data.message);
+    }
+  }, [isError, error]);
 
   return (
     <div className="flex gap-3 h-[100%] container">
@@ -104,13 +113,22 @@ const AdminProducts = () => {
                       currency: "INR",
                     })}
                   </td>
+                  <td className="px-6 py-4 text-nowrap capitalize">
+                    {item.action}
+                  </td>
+                  <td className="px-6 py-4">
+                    {moment(item.createdAt).fromNow()}{" "}
+                  </td>
+                  <td className="px-6 py-4">
+                    {moment(item.updatedAt).fromNow()}{" "}
+                  </td>
                   <td className="px-6 py-4 text-right text-nowrap">
-                    <a
-                      href={`/admin/products/${item._id}`}
+                    <Link
+                      to={`/admin/products/${item._id}`}
                       className="font-semibold text-cyan text-blue-600 dark:text-blue-500 hover:underline"
                     >
                       Edit
-                    </a>
+                    </Link>
                   </td>
                 </tr>
               ))}

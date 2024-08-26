@@ -66,3 +66,59 @@ export const logoutUserApi = async () => {
   const { data } = await axios.get(`/api/v1/logout`);
   return data;
 };
+
+//wishlist
+//get wislists
+export const getUserWishlistsApi = async () => {
+  const { data } = await axios.get(`/api/v1/wishlists`);
+  return data;
+};
+
+//add product in wishlist
+export const AddProductWishlistApi = async (id) => {
+  const config = { headers: { "Content-Type": "application/json" } };
+  const { data } = await axios.post(`/api/v1/wishlist/${id}`, config);
+  return data;
+};
+
+//remove product in wishlist
+export const removeProductWishlistApi = async (id) => {
+  const config = { headers: { "Content-Type": "application/json" } };
+  const { data } = await axios.delete(`/api/v1/wishlist/${id}`, config);
+  return data;
+};
+
+//cart
+//get cart
+export const getUserCartApi = async () => {
+  const { data } = await axios.get(`/api/v1/cart`);
+  return data;
+};
+
+//add product in cart
+export const AddProductCartApi = async ({ addCardDetails, id }) => {
+  const config = { headers: { "Content-Type": "application/json" } };
+  const { data } = await axios.post(
+    `/api/v1/cart/${id}`,
+    addCardDetails,
+    config
+  );
+  return data;
+};
+
+//remove product in cart
+export const removeProductCartApi = async (id) => {
+  const config = { headers: { "Content-Type": "application/json" } };
+  const { data } = await axios.delete(`/api/v1/cart/${id}`, config);
+  return data;
+};
+
+//----------------------------------------------------------------
+//admin
+
+//get all users
+//logout user
+export const getAllUsersApi = async () => {
+  const { data } = await axios.get(`/api/v1/admin/users`);
+  return data;
+};

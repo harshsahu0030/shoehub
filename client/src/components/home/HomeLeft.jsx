@@ -1,11 +1,32 @@
 import propTypes from "prop-types";
-import { createElement } from "react";
+import { createElement, useEffect } from "react";
 import RoundedButton from "../buttons/RoundedButton";
 import ImageLoader from "../loaders/ImageLoader";
 import ProductCardHorizontal from "../cards/ProductCardHorizontal";
 import BannerImage from "./BannerImage";
+import { getTrendingProductsApi } from "../../app/api/productApi";
+import toast from "react-hot-toast";
+import { useQuery } from "@tanstack/react-query";
 
 const HomeLeft = ({ data }) => {
+  //react-queries
+  const {
+    isError: trendingIsError,
+    data: trendingProductsData,
+    error: trendingError,
+  } = useQuery({
+    queryKey: ["get-trending-products"],
+    queryFn: getTrendingProductsApi,
+    refetchOnWindowFocus: false,
+  });
+
+  //useEffect
+  useEffect(() => {
+    if (trendingIsError) {
+      toast.error(trendingError.response.data.message);
+    }
+  }, [trendingIsError, trendingError]);
+
   return (
     <div className="flex flex-col gap-8">
       {/* images  */}
@@ -43,9 +64,9 @@ const HomeLeft = ({ data }) => {
           <RoundedButton />
         </div>
 
-        <ProductCardHorizontal />
-        <ProductCardHorizontal />
-        <ProductCardHorizontal />
+        {trendingProductsData?.data?.products.slice(0, 7).map((item) => (
+          <ProductCardHorizontal key={item._id} data={item} />
+        ))}
       </div>
     </div>
   );

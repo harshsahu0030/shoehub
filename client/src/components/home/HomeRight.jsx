@@ -4,21 +4,65 @@ import ImageLoader from "../loaders/ImageLoader";
 import BannerImage from "./BannerImage";
 import ProductCardSwiper from "../productCardSwiper/ProductCardSwiper";
 import { useQuery } from "@tanstack/react-query";
-import { getAllProductsApi } from "../../app/api/productApi";
+import {
+  getBestSellerProductsApi,
+  getTopRatedProductsApi,
+  getTrendingProductsApi,
+} from "../../app/api/productApi";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
 
 const HomeRight = ({ data }) => {
-  const temp = [];
-
   //react-queries
   const {
-    isError,
-    data: productsData,
-    error,
-    refetch,
+    isError: trendingIsError,
+    data: trendingProductsData,
+    error: trendingError,
   } = useQuery({
-    queryKey: ["get-all-products"],
-    queryFn: getAllProductsApi,
+    queryKey: ["get-trending-products"],
+    queryFn: getTrendingProductsApi,
+    refetchOnWindowFocus: false,
   });
+
+  const {
+    isError: topRatedIsError,
+    data: topRatedProductsData,
+    error: topRatedError,
+  } = useQuery({
+    queryKey: ["get-topRated-products"],
+    queryFn: getTopRatedProductsApi,
+    refetchOnWindowFocus: false,
+  });
+
+  const {
+    isError: bestSellerIsError,
+    data: bestSellerProductsData,
+    error: bestSellerError,
+  } = useQuery({
+    queryKey: ["get-bestSeller-products"],
+    queryFn: getBestSellerProductsApi,
+    refetchOnWindowFocus: false,
+  });
+
+  //useEffect
+  useEffect(() => {
+    if (trendingIsError) {
+      toast.error(trendingError.response.data.message);
+    }
+    if (topRatedIsError) {
+      toast.error(topRatedError.response.data.message);
+    }
+    if (bestSellerIsError) {
+      toast.error(bestSellerError.response.data.message);
+    }
+  }, [
+    trendingIsError,
+    trendingError,
+    topRatedIsError,
+    topRatedError,
+    bestSellerIsError,
+    bestSellerError,
+  ]);
 
   return (
     <div className="container flex flex-col gap-5 overflow-hidden">
@@ -30,7 +74,7 @@ const HomeRight = ({ data }) => {
         url=""
       />
       <div className="container">
-        <ProductCardSwiper data={productsData?.data?.products} />
+        <ProductCardSwiper data={bestSellerProductsData?.data?.products} />
       </div>
 
       {/* banner  */}
@@ -54,7 +98,7 @@ const HomeRight = ({ data }) => {
         url=""
       />
       <div className="container">
-        <ProductCardSwiper data={temp} />
+        <ProductCardSwiper data={trendingProductsData?.data?.products} />
       </div>
 
       {/* banner */}
@@ -78,7 +122,7 @@ const HomeRight = ({ data }) => {
         url=""
       />
       <div className="container">
-        <ProductCardSwiper data={temp} />
+        <ProductCardSwiper data={topRatedProductsData?.data?.products} />
       </div>
 
       {/* banner */}
