@@ -10,7 +10,7 @@ const Wishlist = () => {
   const backToTopHanlder = useBackToTop();
 
   //react-quries
-  const { isError, data, error, refetch } = useQuery({
+  const { isError, data, error, refetch, isLoading } = useQuery({
     queryKey: ["get-user-wishlists"],
     queryFn: getUserWishlistsApi,
   });
@@ -38,11 +38,13 @@ const Wishlist = () => {
         <hr className="border-b-2 border-lightGray/50" />
 
         <div className="grid grid-cols-5">
-          {data && data?.data?.wishlist.length > 0
-            ? data?.data?.wishlist.map((item) => (
-                <WishlistCard key={item._id} data={item} refetch={refetch} />
-              ))
-            : "No products"}
+          {!isLoading
+            ? data && data?.data?.wishlist.length > 0
+              ? data?.data?.wishlist.map((item) => (
+                  <WishlistCard key={item._id} data={item} refetch={refetch} />
+                ))
+              : "No products"
+            : "Loading..."}
         </div>
       </div>
     </>

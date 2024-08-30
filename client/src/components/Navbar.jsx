@@ -7,11 +7,14 @@ import { AiOutlineUser } from "react-icons/ai";
 import { IoMenu } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { navbar } from "../data/navbar";
-import { createElement, useEffect, useRef } from "react";
+import { createElement, useContext, useEffect, useRef } from "react";
 import Sliderbar from "./Sliderbar";
+import { AuthContext } from "../context/Authuser";
+import UserSearchBox from "./UserSearchBox";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const { currentUser } = useContext(AuthContext);
 
   //ref
   const toggleSliderbarRef = useRef();
@@ -56,7 +59,7 @@ const Navbar = () => {
           <LocationBox />
         </div>
         <div className="w-[100%] h-full xl:w-[70%]">
-          <SearchBox />
+          <UserSearchBox />
         </div>
       </div>
 
@@ -72,9 +75,9 @@ const Navbar = () => {
         />
         <div className="relative block" onClick={() => navigate("/cart")}>
           <BsHandbag className="text-5xl p-2 xl:p-3 bg-pink-100 rounded-full cursor-pointer transition-all duration-200 ease-in-out hover:scale-110 overflow-visible" />
-          <span className="absolute h-5 w-5 flex items-center justify-center top-0 right-0 p-1 bg-red-400 text-xs text-white rounded-full">
-            5
-          </span>
+          {/* <span className="absolute h-5 w-5 flex items-center justify-center top-0 right-0 p-1 bg-red-400 text-xs text-white rounded-full">
+            {currentUser ? currentUser.cart.length : "0"}
+          </span> */}
         </div>
       </div>
 

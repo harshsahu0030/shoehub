@@ -18,6 +18,7 @@ const HomeRight = ({ data }) => {
     isError: trendingIsError,
     data: trendingProductsData,
     error: trendingError,
+    isLoading: trendingLoading,
   } = useQuery({
     queryKey: ["get-trending-products"],
     queryFn: getTrendingProductsApi,
@@ -28,6 +29,7 @@ const HomeRight = ({ data }) => {
     isError: topRatedIsError,
     data: topRatedProductsData,
     error: topRatedError,
+    isLoading: topRatedLoading,
   } = useQuery({
     queryKey: ["get-topRated-products"],
     queryFn: getTopRatedProductsApi,
@@ -38,6 +40,7 @@ const HomeRight = ({ data }) => {
     isError: bestSellerIsError,
     data: bestSellerProductsData,
     error: bestSellerError,
+    isLoading: bestSellerLoading,
   } = useQuery({
     queryKey: ["get-bestSeller-products"],
     queryFn: getBestSellerProductsApi,
@@ -74,7 +77,10 @@ const HomeRight = ({ data }) => {
         url=""
       />
       <div className="container">
-        <ProductCardSwiper data={bestSellerProductsData?.data?.products} />
+        <ProductCardSwiper
+          data={bestSellerProductsData?.data?.products}
+          loading={bestSellerLoading}
+        />
       </div>
 
       {/* banner  */}
@@ -98,7 +104,10 @@ const HomeRight = ({ data }) => {
         url=""
       />
       <div className="container">
-        <ProductCardSwiper data={trendingProductsData?.data?.products} />
+        <ProductCardSwiper
+          data={trendingProductsData?.data?.products}
+          loading={trendingLoading}
+        />
       </div>
 
       {/* banner */}
@@ -122,7 +131,10 @@ const HomeRight = ({ data }) => {
         url=""
       />
       <div className="container">
-        <ProductCardSwiper data={topRatedProductsData?.data?.products} />
+        <ProductCardSwiper
+          data={topRatedProductsData?.data?.products}
+          loading={topRatedLoading}
+        />
       </div>
 
       {/* banner */}

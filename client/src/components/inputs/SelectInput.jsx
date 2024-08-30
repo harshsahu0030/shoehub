@@ -9,25 +9,26 @@ const SelectInput = ({
   onChange,
   error,
   options,
+  occasion,
 }) => {
   return (
     <div className="flex flex-col gap-1">
       <label htmlFor={id} className="text-sm font-semibold text-lightGray">
-        {label}
+        {label && label}
       </label>
       <div className="relative flex items-center">
         <select
-          type={type}
-          id={id}
-          name={name}
+          type={type && type}
+          id={id && id}
+          name={name && name}
           className="bg-transparent outline-none border-2 border-lightGray focus:border-blue text-base rounded-lg w-full p-2"
-          value={value}
-          onChange={onChange}
+          value={value && value}
+          onChange={onChange && onChange}
         >
-          <option value="">Select {name}</option>
+          {!occasion === "cart" && <option value="">Select {name}</option>}
 
           {options?.map((item, i) => (
-            <option key={i} className="bg-slate-900 capitalize" value={item}>
+            <option key={i} className="capitalize" value={item}>
               {item}
             </option>
           ))}
@@ -46,6 +47,7 @@ SelectInput.propTypes = {
   type: propTypes.string,
   name: propTypes.string,
   value: propTypes.string,
+  occasion: propTypes.string,
   onChange: propTypes.func,
   error: propTypes.string,
   options: propTypes.array,

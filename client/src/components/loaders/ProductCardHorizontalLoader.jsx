@@ -1,9 +1,6 @@
 const ProductCardLoader = () => {
   return (
-    <div
-      role="status"
-      className="h-[18vh] md:h-[11vh] xl:h-[15vh] p-4 border border-lightGray/50 rounded shadow animate-pulse bg-lightGray/30 flex gap-2"
-    >
+    <div className="h-[18vh] md:h-[11vh] w-full xl:h-[15vh] p-4 border border-lightGray/50 rounded shadow animate-pulse bg-lightGray/30 flex gap-2">
       <div className="flex items-center justify-center h-full w-[40%]  mb-4 bg-gray-300 rounded">
         <svg
           className="w-10 h-10 text-gray"

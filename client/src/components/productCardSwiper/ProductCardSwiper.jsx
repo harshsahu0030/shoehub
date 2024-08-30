@@ -14,7 +14,7 @@ import useWindowSize from "../../hook/useWindowSize";
 import ProductCardLoader from "../loaders/ProductCardLoader";
 import propTypes from "prop-types";
 
-const ProductCardSwiper = ({ data }) => {
+const ProductCardSwiper = ({ data, loading }) => {
   const { width } = useWindowSize();
 
   //useState
@@ -22,7 +22,7 @@ const ProductCardSwiper = ({ data }) => {
 
   return (
     <div className="relative">
-      {data && data.length >= 0 ? (
+      {!loading ? (
         <Swiper
           slidesPerView={width <= 640 ? 2 : width <= 1024 ? 3 : 4}
           spaceBetween={10}
@@ -59,6 +59,7 @@ const ProductCardSwiper = ({ data }) => {
 
 ProductCardSwiper.propTypes = {
   data: propTypes.array,
+  loading: propTypes.bool,
 };
 
 export default ProductCardSwiper;

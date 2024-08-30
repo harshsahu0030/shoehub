@@ -106,10 +106,20 @@ export const AddProductCartApi = async ({ addCardDetails, id }) => {
   return data;
 };
 
+//add product in cart
+export const UpdateProductCartApi = async ({ updateCardDetails, id }) => {
+  const config = { headers: { "Content-Type": "application/json" } };
+  const { data } = await axios.put(
+    `/api/v1/cart/${id}`,
+    updateCardDetails,
+    config
+  );
+  return data;
+};
+
 //remove product in cart
 export const removeProductCartApi = async (id) => {
-  const config = { headers: { "Content-Type": "application/json" } };
-  const { data } = await axios.delete(`/api/v1/cart/${id}`, config);
+  const { data } = await axios.delete(`/api/v1/cart/${id}`);
   return data;
 };
 

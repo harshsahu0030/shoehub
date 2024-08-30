@@ -10,7 +10,7 @@ export const AuthUserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState({});
   const [isUser, setIsUser] = useState(false);
 
-  const { isSuccess, data, refetch, error, isError } = useQuery({
+  const { isSuccess, data, refetch, error, isError, isLoading } = useQuery({
     queryKey: ["load-user"],
     queryFn: loadUserApi,
     refetchOnWindowFocus: false,
@@ -33,6 +33,7 @@ export const AuthUserProvider = ({ children }) => {
         currentUser,
         isUser,
         refetch,
+        isLoading,
       }}
     >
       {children}

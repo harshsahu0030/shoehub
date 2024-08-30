@@ -27,6 +27,19 @@ export const categories = [
   },
 ];
 
+export const all_category = {
+  gender: "all",
+  types: [
+    "oxfords",
+    "loafers",
+    "boots",
+    "sneakers",
+    "sandal",
+    "heels",
+    "running shoes",
+  ],
+};
+
 export const gender_data = ["men", "women"];
 
 export const sizes_data = [

@@ -1,8 +1,31 @@
 import axios from "axios";
 
 //get all Products
-export const getAllProductsApi = async () => {
-  const { data } = await axios.get(`/api/v1/products`);
+export const getAllProductsApi = async ({
+  gender,
+  category,
+  color,
+  lPrice,
+  hPrice,
+  lRating,
+  discount,
+  page,
+}) => {
+  let link = `/api/v1/products?${gender !== "" ? `&gender=${gender}` : ""}${
+    category && category.length > 0 ? `&category=${category?.join(" ")}` : ""
+  }${lRating ? `&ratings[gte]=${lRating}` : ""}${
+    discount ? `&discount[gte]=${discount}` : ""
+  }${color && color.length > 0 ? `&color=${color?.join(" ")}` : ""}${
+    page !== "" ? `&page=${page}` : ""
+  }`;
+
+  const { data } = await axios.get(link);
+  return data;
+};
+
+//get all Products
+export const getSearchProductsApi = async (keyword) => {
+  const { data } = await axios.get(`/api/v1/products?keyword=${keyword}`);
   return data;
 };
 

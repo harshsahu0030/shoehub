@@ -444,32 +444,6 @@ export const getUserCartController = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, { products: user.cart }, ""));
 });
 
-//update cart products
-export const updateCartController = asyncHandler(async (req, res, next) => {
-  const user = await UsersModel.findById(req.user._id);
-
-  let cart = user.cart.find(
-    (item) => item._id.toString() === req.params.id.toString()
-  );
-
-  if (!cart) {
-    throw new ApiError(400, "Product not found");
-  }
-
-  const { size, quantity } = req.body;
-
-  if (size) {
-    cart.size = parseInt(size);
-  }
-  if (quantity) {
-    cart.quantity = parseInt(quantity);
-  }
-
-  await user.save();
-
-  return res.status(200).json(new ApiResponse(200, null, "Cart updated"));
-});
-
 //add product from cart controller
 export const addCartController = asyncHandler(async (req, res) => {
   const user = await UsersModel.findById(req.user._id);
@@ -503,6 +477,32 @@ export const addCartController = asyncHandler(async (req, res) => {
 
     return res.status(200).json(new ApiResponse(200, null, "Added to Cart"));
   }
+});
+
+//update cart products
+export const updateCartController = asyncHandler(async (req, res, next) => {
+  const user = await UsersModel.findById(req.user._id);
+
+  let cart = user.cart.find(
+    (item) => item._id.toString() === req.params.id.toString()
+  );
+
+  if (!cart) {
+    throw new ApiError(400, "Product not found");
+  }
+
+  const { size, quantity } = req.body;
+
+  if (size) {
+    cart.size = parseInt(size);
+  }
+  if (quantity) {
+    cart.quantity = parseInt(quantity);
+  }
+
+  await user.save();
+
+  return res.status(200).json(new ApiResponse(200, null, "Cart updated"));
 });
 
 // remove product from cart controller

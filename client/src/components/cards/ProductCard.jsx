@@ -1,10 +1,39 @@
-import { IoMdHeartEmpty } from "react-icons/io";
+import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import { IoStarSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import propTypes from "prop-types";
+import { useMutation } from "@tanstack/react-query";
+import { AddProductWishlistApi } from "../../app/api/userApi";
+import toast from "react-hot-toast";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../context/Authuser";
 
 const ProductCard = ({ data }) => {
   const navigate = useNavigate();
+  const { currentUser } = useContext(AuthContext);
+
+  //state
+  const [changeHeart, setChangeHeart] = useState(false);
+
+  //react-quries
+  const { mutate, isPending } = useMutation({
+    mutationFn: AddProductWishlistApi,
+
+    onError: (error) => {
+      toast.error(error.response.data.message);
+    },
+    onSuccess: (data) => {
+      toast.success(data.message);
+      setChangeHeart(true);
+    },
+  });
+
+  //useEffect
+  useEffect(() => {
+    if (currentUser && currentUser?.wishlist?.includes(data._id)) {
+      setChangeHeart(true);
+    }
+  }, [currentUser, data._id]);
 
   return (
     <div className="flex flex-col gap-2 h-96 border border-lightGray/30 rounded-lg overflow-hidden cursor-pointer hover:shadow-lg hover:shadow-lightGray-500/50 group/card-image">
@@ -38,7 +67,17 @@ const ProductCard = ({ data }) => {
         </div>
 
         <div className="absolute items-center top-1 right-2 text-xl hover:scale-110 transition-all ease-in-out duration-300 cursor-pointer bg-white p-2 rounded-3xl">
-          <IoMdHeartEmpty />
+          {changeHeart ? (
+            <IoMdHeart
+              className="text-blue"
+              onClick={() => navigate("/wishlist")}
+            />
+          ) : (
+            <IoMdHeartEmpty
+              onClick={() => mutate(data._id)}
+              disabled={isPending}
+            />
+          )}
         </div>
       </div>
 
