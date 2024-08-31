@@ -14,6 +14,7 @@ import Admin from "./pages/Admin/Admin.jsx";
 import CreateProduct from "./pages/Admin/CreateProduct.jsx";
 import AdminError from "./pages/Admin/AdminError.jsx";
 import UpdateProducts from "./pages/Admin/UpdateProducts.jsx";
+import SearchPage from "./pages/SearchPage.jsx";
 
 //routes import
 const Home = lazy(() => import("./pages/Home.jsx"));
@@ -43,19 +44,15 @@ const App = () => {
           element: <Home />,
         },
         {
+          path: "search",
+          element: <SearchPage />,
+        },
+        {
           path: "products",
           element: <Products />,
         },
         {
-          path: "products/:gender",
-          element: <Products />,
-        },
-        {
-          path: "products/:gender/:category",
-          element: <Products />,
-        },
-        {
-          path: "products/:gender/:category/:id",
+          path: "products/:id",
           element: <Product />,
         },
         {

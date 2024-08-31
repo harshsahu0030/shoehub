@@ -4,7 +4,7 @@ import { RiSearch2Line } from "react-icons/ri";
 import { getSearchProductsApi } from "../app/api/productApi";
 import toast from "react-hot-toast";
 import ProductCardLoader from "./loaders/ProductCardHorizontalLoader";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const UserSearchBox = () => {
   const navigate = useNavigate();
@@ -66,7 +66,7 @@ const UserSearchBox = () => {
       </div>
 
       {showSearchResult && (
-        <ul className="absolute top-[100%]  w-full left-0 h-[60vh] bg-white p-4 rounded-md shadow-lg shadow-lightGray-500/50 overflow-y-scroll flex flex-col gap-3">
+        <ul className="absolute top-[100%] w-full left-0 h-[60vh] bg-white p-4 rounded-md shadow-lg shadow-lightGray-500/50 overflow-y-scroll flex flex-col gap-3 overflow-x-hidden">
           {!isLoading ? (
             productsData?.data?.products.length > 0 ? (
               productsData?.data?.products.map((item) => (

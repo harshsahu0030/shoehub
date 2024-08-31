@@ -7,13 +7,7 @@ const ProductCardHorizontal = ({ data }) => {
   return (
     <div
       className="flex gap-2 h-[18vh] md:h-[11vh] xl:h-[15vh] border border-lightGray/30 rounded-lg overflow-hidden cursor-pointer hover:shadow-lg hover:shadow-lightGray-500/50"
-      onClick={() =>
-        navigate(
-          `/products/${data.gender.toLowerCase()}/${data.category.toLowerCase()}/${
-            data._id
-          }`
-        )
-      }
+      onClick={() => navigate(`/products/${data._id}`)}
     >
       {/* top  */}
       <div className="h-full flex items-center w-[40%] bg-white">

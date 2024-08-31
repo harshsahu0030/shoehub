@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar";
 import AdminNavbar from "./components/Admin/AdminNavbar";
 import { useContext } from "react";
 import { AuthContext } from "./context/Authuser";
+import Loader from "./components/loaders/Loader";
 
 export const Layout = () => {
   return (
@@ -56,6 +57,8 @@ export const Authentication = () => {
     } else {
       return <Navigate to="/profile" />;
     }
+  } else {
+    return <Loader />;
   }
 };
 
@@ -86,6 +89,8 @@ export const AuthenticatedUser = () => {
     } else {
       return <Navigate to="/sign-in" />;
     }
+  } else {
+    return <Loader />;
   }
 };
 
@@ -107,5 +112,7 @@ export const AdminUser = () => {
     } else {
       return <Navigate to="/sign-in" />;
     }
+  } else {
+    return <Loader />;
   }
 };

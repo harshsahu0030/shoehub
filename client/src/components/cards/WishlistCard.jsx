@@ -34,13 +34,7 @@ const WishlistCard = ({ data, refetch }) => {
           alt="product image"
           loading="lazy"
           className="h-full container object-contain group-hover/card-image:scale-110 transition-all ease-in-out duration-300"
-          onClick={() =>
-            navigate(
-              `/products/${data.gender.toLowerCase()}/${data.category.toLowerCase()}/${
-                data._id
-              }`
-            )
-          }
+          onClick={() => navigate(`/products${data._id}`)}
         />
         <div className="absolute flex gap-1 items-center bottom-1 left-1 text-xs font-bold bg-white/90 py-1 px-2 rounded-sm">
           <span className="flex items-center gap-1">
@@ -60,13 +54,7 @@ const WishlistCard = ({ data, refetch }) => {
       {/* bottom  */}
       <div
         className="flex flex-col gap-2 h-[30%] container px-2 text-sm"
-        onClick={() =>
-          navigate(
-            `/products/${data.gender.toLowerCase()}/${data.category.toLowerCase()}/${
-              data._id
-            }`
-          )
-        }
+        onClick={() => navigate(`/products${data._id}`)}
       >
         <div className="flex flex-col">
           <h5 className="uppercase font-bold line-clamp-1">{data.brand}</h5>

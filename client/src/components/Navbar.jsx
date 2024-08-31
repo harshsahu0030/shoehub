@@ -74,9 +74,12 @@ const Navbar = () => {
         />
         <div className="relative block" onClick={() => navigate("/cart")}>
           <BsHandbag className="text-5xl p-2 xl:p-3 bg-pink-100 rounded-full cursor-pointer transition-all duration-200 ease-in-out hover:scale-110 overflow-visible" />
-          {/* <span className="absolute h-5 w-5 flex items-center justify-center top-0 right-0 p-1 bg-red-400 text-xs text-white rounded-full">
-            {currentUser ? currentUser.cart.length : "0"}
-          </span> */}
+
+          {currentUser && (
+            <span className="absolute h-5 w-5 flex items-center justify-center top-0 right-0 p-1 bg-red-400 text-xs text-white rounded-full">
+              {currentUser?.cart?.length}
+            </span>
+          )}
         </div>
       </div>
 
