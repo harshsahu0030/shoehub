@@ -16,7 +16,7 @@ export const Layout = () => {
       <nav className="container h-[8vh] xl:h-[11vh] sticky top-0 left-0 z-20 bg-white">
         <Navbar />
       </nav>
-      <main className="min-h-[80vh] flex flex-col mt-5 md:mt-0">
+      <main className="min-h-[80vh] flex flex-col mt-5 md:mt-0 gap-5">
         <section className="container hidden md:block h-[6vh] xl:h-[12vh] py-3">
           <Menu />
         </section>
@@ -42,7 +42,7 @@ export const Authentication = () => {
           <nav className="container h-[8vh] xl:h-[11vh] sticky top-0 left-0 z-20 bg-white">
             <Navbar />
           </nav>
-          <main className="min-h-[80vh] flex flex-col mt-5 md:mt-0">
+          <main className="min-h-[80vh] flex flex-col mt-5 md:mt-0 gap-5">
             <section className="container hidden md:block h-[6vh] xl:h-[12vh] py-3">
               <Menu />
             </section>
@@ -72,7 +72,7 @@ export const AuthenticatedUser = () => {
           <nav className="container h-[8vh] xl:h-[11vh] sticky top-0 left-0 z-20 bg-white">
             <Navbar />
           </nav>
-          <main className="min-h-[80vh] flex flex-col mt-5 md:mt-0">
+          <main className="min-h-[80vh] flex flex-col mt-5 md:mt-0 gap-5">
             <section className="container hidden md:block h-[6vh] xl:h-[12vh] py-3">
               <Menu />
             </section>

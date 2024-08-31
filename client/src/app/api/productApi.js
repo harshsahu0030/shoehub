@@ -2,6 +2,7 @@ import axios from "axios";
 
 //get all Products
 export const getAllProductsApi = async ({
+  keyword,
   gender,
   category,
   color,
@@ -9,15 +10,20 @@ export const getAllProductsApi = async ({
   hPrice,
   lRating,
   discount,
+  sort,
   page,
 }) => {
-  let link = `/api/v1/products?${gender !== "" ? `&gender=${gender}` : ""}${
+  let link = `/api/v1/products?${keyword !== "" ? `keyword=${keyword}` : ""}${
+    gender !== "" ? `&gender=${gender}` : ""
+  }${
     category && category.length > 0 ? `&category=${category?.join(" ")}` : ""
   }${lRating ? `&ratings[gte]=${lRating}` : ""}${
     discount ? `&discount[gte]=${discount}` : ""
   }${color && color.length > 0 ? `&color=${color?.join(" ")}` : ""}${
-    page !== "" ? `&page=${page}` : ""
-  }`;
+    lPrice ? `&price[gte]=${lPrice}` : ""
+  }${hPrice ? `&price[lte]=${hPrice}` : ""}${
+    sort !== "" ? `&sort=${sort}` : ""
+  }${page !== "" ? `&page=${page}` : ""}`;
 
   const { data } = await axios.get(link);
   return data;

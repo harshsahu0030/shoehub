@@ -33,7 +33,12 @@ const HomeLeft = ({ data }) => {
       <div className="flex md:flex-col gap-3 items-center h-400 h-[350px] md:h-[700px] lg:h-[900px] overflow-hidden">
         {data ? (
           data.banner.vertical.map((item, i) => (
-            <BannerImage key={i} img={item.img} imgAlt={"banner image"} />
+            <BannerImage
+              key={i}
+              img={item.img}
+              imgAlt={"banner image"}
+              url={item}
+            />
           ))
         ) : (
           <ImageLoader number={2} />
@@ -61,7 +66,7 @@ const HomeLeft = ({ data }) => {
       <div className="flex flex-col gap-3">
         <div className="flex flex-col gap-2">
           <h5 className="text-md font-bold uppercase ">Trending Products</h5>
-          <RoundedButton />
+          <RoundedButton url="/products?sort=createdAt+-1" />
         </div>
 
         {trendingProductsData?.data?.products.slice(0, 7).map((item) => (

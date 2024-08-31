@@ -5,8 +5,11 @@ import propTypes from "prop-types";
 
 // import required modules
 import { Autoplay } from "swiper/modules";
+import { useNavigate } from "react-router-dom";
 
 const HomeBanner = ({ data }) => {
+  const navigate = useNavigate();
+
   return (
     <>
       <Swiper
@@ -27,6 +30,23 @@ const HomeBanner = ({ data }) => {
                 className="container h-full object-cover object-center cursor-pointer hover:opacity-80"
                 height={300}
                 width={500}
+                onClick={() =>
+                  navigate(
+                    `${item.url}?${
+                      item.query.gender ? `&g=${item.query.gender}` : ""
+                    }${
+                      item.query.category
+                        ? `&cat=${item.query.category?.join(" ")}`
+                        : ""
+                    }${
+                      item.query.discount ? `&dis=${item.query.discount}` : ""
+                    }${
+                      item.query.color
+                        ? `&col=${item.query.color?.join(" ")}`
+                        : ""
+                    }`
+                  )
+                }
               />
             </SwiperSlide>
           ))}

@@ -1,5 +1,4 @@
 import LocationBox from "./LocationBox";
-import SearchBox from "./SearchBox";
 import Logo from "/logo.png";
 import { IoMdHeartEmpty } from "react-icons/io";
 import { BsHandbag } from "react-icons/bs";

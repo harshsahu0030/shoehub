@@ -121,3 +121,41 @@ export const colorPallets = [
   { name: "gold", color: { R: 222, G: 170, B: 13 } },
   { name: "yellow", color: { R: 255, G: 210, B: 70 } },
 ];
+
+export const product_sorting_data = [
+  {
+    name: "price: low to hight",
+    key: "price",
+    value: 1,
+  },
+  {
+    name: "price: high to low",
+    key: "price",
+    value: -1,
+  },
+  {
+    name: "ratings: low to hight",
+    key: "ratings",
+    value: 1,
+  },
+  {
+    name: "ratings: high to low",
+    key: "ratings",
+    value: -1,
+  },
+  {
+    name: "orders: low to hight",
+    key: "numOfOrders",
+    value: 1,
+  },
+  {
+    name: "orders: high to low",
+    key: "numOfOrders",
+    value: -1,
+  },
+  {
+    name: "what's new",
+    key: "createdAt",
+    value: -1,
+  },
+];

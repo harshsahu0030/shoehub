@@ -15,23 +15,59 @@ export const homeData = {
     vertical: [
       {
         img: VerticalBanner01,
-        url: "/products/men/sneakers",
-        state: {
-          discount: 60,
-          brand: "nike",
+        url: "/products",
+        query: {
+          discount: 50,
+          category: ["sneakers"],
         },
       },
       {
         img: VerticalBanner02,
-        url: "/products/men/running shoes",
-        state: {
-          discount: 60,
-          brand: "adidas",
+        url: "/products",
+        query: {
+          discount: 50,
+          category: ["running shoes"],
         },
       },
     ],
-    horizontal: [HorizontalBanner01],
-    small: [SmallBanner01, SmallBanner02, SmallBanner03, SmallBanner04],
+    horizontal: [
+      {
+        img: HorizontalBanner01,
+        url: "/products",
+        query: {},
+      },
+    ],
+    small: [
+      {
+        img: SmallBanner01,
+        url: "/products",
+        query: {
+          color: ["white"],
+        },
+      },
+      {
+        img: SmallBanner02,
+        url: "/products",
+        query: {
+          category: ["sandal"],
+        },
+      },
+      {
+        img: SmallBanner03,
+        url: "/products",
+        query: {
+          category: ["loafers"],
+        },
+      },
+      {
+        img: SmallBanner04,
+        url: "/products",
+        query: {
+          color: ["black"],
+          category: ["sneakers"],
+        },
+      },
+    ],
   },
 
   features: [

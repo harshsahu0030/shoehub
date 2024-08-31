@@ -74,7 +74,7 @@ const HomeRight = ({ data }) => {
         title="Best"
         highlighted="Seller"
         description="Do not miss the current offers until the end of season."
-        url=""
+        url="/products?sort=numOfOrders+-1"
       />
       <div className="container">
         <ProductCardSwiper
@@ -89,7 +89,12 @@ const HomeRight = ({ data }) => {
           data.banner.small
             .slice(0, 2)
             .map((item, i) => (
-              <BannerImage key={i} img={item} imgAlt={"banner image"} />
+              <BannerImage
+                key={i}
+                img={item.img}
+                imgAlt={"banner image"}
+                url={item}
+              />
             ))
         ) : (
           <ImageLoader number={2} />
@@ -101,7 +106,7 @@ const HomeRight = ({ data }) => {
         title="HOT PRODUCT FOR "
         highlighted="THIS WEEK"
         description="Dont miss this opportunity at a special discount just for this week."
-        url=""
+        url="/products?sort=createdAt+-1"
       />
       <div className="container">
         <ProductCardSwiper
@@ -116,7 +121,12 @@ const HomeRight = ({ data }) => {
           data.banner.small
             .slice(2, 4)
             .map((item, i) => (
-              <BannerImage key={i} img={item} imgAlt={"banner image"} />
+              <BannerImage
+                key={i}
+                img={item.img}
+                imgAlt={"banner image"}
+                url={item}
+              />
             ))
         ) : (
           <ImageLoader number={2} />
@@ -128,7 +138,7 @@ const HomeRight = ({ data }) => {
         title="top"
         highlighted="rated"
         description="New products with updated stocks."
-        url=""
+        url="/products?sort=ratings+-1"
       />
       <div className="container">
         <ProductCardSwiper
@@ -141,7 +151,12 @@ const HomeRight = ({ data }) => {
       <div className="h-[6vh] xl:h-[20vh] container flex gap-3 justify-between overflow-hidden">
         {data ? (
           data.banner.horizontal.map((item, i) => (
-            <BannerImage key={i} img={item} imgAlt={"banner image"} />
+            <BannerImage
+              key={i}
+              img={item.img}
+              imgAlt={"banner image"}
+              url={item}
+            />
           ))
         ) : (
           <ImageLoader number={1} />

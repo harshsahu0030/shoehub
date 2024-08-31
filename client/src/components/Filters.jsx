@@ -10,8 +10,11 @@ import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import { IoIosStar, IoIosStarOutline } from "react-icons/io";
 import { useSearchParams } from "react-router-dom";
 import propTypes from "prop-types";
+import PriceSlider from "./PriceSlider";
 
 const Filters = ({
+  keyword,
+  setKeyword,
   gender,
   setGender,
   category,
@@ -28,6 +31,8 @@ const Filters = ({
   setColor,
   discount,
   setDiscount,
+  sort,
+  setSort,
   page,
   setPage,
   refetch,
@@ -90,16 +95,22 @@ const Filters = ({
 
   useEffect(() => {
     setSearchParams(
-      `?${gender !== "" ? `&g=${gender}` : ""}${
-        category && category.length > 0 ? `&cat=${category?.join(" ")}` : ""
-      }${lRating ? `&ratl=${lRating}` : ""}${
-        discount ? `&dis=${discount}` : ""
-      }${color && color.length > 0 ? `&col=${color?.join(" ")}` : ""}${
-        page !== "" ? `&p=${page}` : ""
-      }`
+      `?${keyword !== "" ? `&keyword=${keyword}` : ""}${
+        gender !== "" ? `&g=${gender}` : ""
+      }${category && category.length > 0 ? `&cat=${category?.join(" ")}` : ""}${
+        lRating ? `&ratl=${lRating}` : ""
+      }${discount ? `&dis=${discount}` : ""}${
+        color && color.length > 0 ? `&col=${color?.join(" ")}` : ""
+      }${lPrice ? `&lp=${lPrice}` : ""}${hPrice ? `&hp=${hPrice}` : ""}${
+        sort !== "" ? `&sort=${sort?.split(",")?.join(" ")}` : ""
+      }${page !== "" ? `&p=${page}` : ""}`
     );
   }, [
     setSearchParams,
+    lPrice,
+    hPrice,
+    sort,
+    keyword,
     gender,
     category,
     lRating,
@@ -110,17 +121,19 @@ const Filters = ({
   ]);
 
   return (
-    <div className="container flex flex-col gap-3">
+    <div className="container flex flex-col gap-3 bg-white p-5 md:p-0">
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-bold">FILTERS</h3>
         <button
           className="text-sm font-semibold bg-red-500 text-white py-1 px-2 rounded-lg"
           onClick={() => {
+            setKeyword("");
             setGender("");
             setCategory([]);
             setLRating("");
             setDiscount("");
             setColor("");
+            setSort("");
           }}
         >
           Reset
@@ -195,6 +208,20 @@ const Filters = ({
                   </label>
                 </div>
               ))}
+        </div>
+      </div>
+
+      <hr className="border-b-2 border-lightGray/30" />
+
+      <div className="flex flex-col gap-3">
+        <h4 className="text-medium font-bold">Select Price</h4>
+        <div className="flex flex-col gap-1 w-[100%]">
+          <PriceSlider
+            lPrice={lPrice}
+            setLPrice={setLPrice}
+            hPrice={hPrice}
+            setHPrice={setHPrice}
+          />
         </div>
       </div>
 
@@ -278,7 +305,7 @@ const Filters = ({
 
       <div className="flex flex-col gap-3">
         <h4 className="text-medium font-bold">Select Colours</h4>
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1 pb-10 md:pb-0">
           {colorPallets
             .slice(0, showColor ? colorPallets.length : 10)
             .map((item, i) => (
@@ -322,6 +349,8 @@ const Filters = ({
 };
 
 Filters.propTypes = {
+  keyword: propTypes.string,
+  setKeyword: propTypes.func,
   gender: propTypes.string,
   setGender: propTypes.func,
   category: propTypes.array,
@@ -338,6 +367,8 @@ Filters.propTypes = {
   setColor: propTypes.func,
   discount: propTypes.string,
   setDiscount: propTypes.func,
+  sort: propTypes.string,
+  setSort: propTypes.func,
   page: propTypes.string,
   setPage: propTypes.func,
   refetch: propTypes.func,

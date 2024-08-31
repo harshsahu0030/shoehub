@@ -9,6 +9,12 @@ class ProductApiFeatures {
       ? {
           $or: [
             {
+              gender: {
+                $regex: this.queryStr.keyword,
+                $options: "i",
+              },
+            },
+            {
               title: {
                 $regex: this.queryStr.keyword,
                 $options: "i",
@@ -22,6 +28,12 @@ class ProductApiFeatures {
             },
             {
               category: {
+                $regex: this.queryStr.keyword,
+                $options: "i",
+              },
+            },
+            {
+              color: {
                 $regex: this.queryStr.keyword,
                 $options: "i",
               },
