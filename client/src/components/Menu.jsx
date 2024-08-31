@@ -40,7 +40,7 @@ const Menu = () => {
 
                 <div className="absolute w-[100%] h-[0%] opacity-0 invisible bg-white rounded-lg top-[100%] left-0 group-hover/megamenu:visible group-hover/megamenu:h-[auto] group-hover/megamenu:opacity-100 group-hover/megamenu:p-5 transition-all ease-in-out duration-300   overflow-hidden shadow-lg shadow-lightGray-500/50 z-10 flex flex-col gap-2 cursor-default">
                   <Link
-                    to={""}
+                    to={`/products?g=${item.gender}`}
                     className="w-fit flex items-center gap-2 text-md font-bold uppercase py-1 border-b border-lightGray text-blue"
                   >
                     {item.gender}
@@ -51,13 +51,13 @@ const Menu = () => {
                     />
                   </Link>
                   <div className="columns-3 text-gray text-base font-medium">
-                    {item.types.sort().map((item, i) => (
+                    {item.types.sort().map((type, i) => (
                       <Link
                         key={i}
-                        to="/"
+                        to={`/products?g=${item.gender}&cat=${type}`}
                         className="block hover:text-blue py-1 capitalize"
                       >
-                        {item}
+                        {type}
                       </Link>
                     ))}
                   </div>

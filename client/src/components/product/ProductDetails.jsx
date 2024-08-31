@@ -7,7 +7,7 @@ import {
   AddProductWishlistApi,
 } from "../../app/api/userApi";
 import toast from "react-hot-toast";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../context/Authuser";
 import { useNavigate } from "react-router-dom";
 
@@ -59,14 +59,23 @@ const ProductDetails = ({ product }) => {
     },
   });
 
-  //useEffect
-  useEffect(() => {
-    if (product) {
-      setAddCardDetails(() => {
-        return { ...addCardDetails, size: product.sizes[0].size };
+  //functioms
+  const handleSelectSize = (item) => {
+    if (item.stock <= 0) {
+      toast.error("This size is out of stock");
+    } else {
+      setAddCardDetails({
+        ...addCardDetails,
+        size: item.size,
       });
     }
-  }, [product]);
+  };
+
+  const handleAddCart = () => {
+    addCart({ addCardDetails, id: _id });
+  };
+
+  //useEffect
 
   return (
     product && (
@@ -124,13 +133,10 @@ const ProductDetails = ({ product }) => {
                   key={i}
                   className={`text-lg flex items-center justify-center font-medium h-14 w-14 border rounded-lg border-lightGray hover:bg-blue hover:text-white transition-all ease-in-out duration-200 ${
                     addCardDetails.size === item.size && "bg-blue/80 text-white"
-                  }`}
-                  onClick={() =>
-                    setAddCardDetails({
-                      ...addCardDetails,
-                      size: item.size,
-                    })
-                  }
+                  } disabled:bg-red-400
+                   disabled:cursor-not-allowed`}
+                  onClick={() => handleSelectSize(item)}
+                  disabled={item.stock <= 0}
                 >
                   {item.size}
                 </button>
@@ -154,7 +160,7 @@ const ProductDetails = ({ product }) => {
           ) : (
             <button
               className="w-ful0l py-3 bg-blue text-white rounded-md hover:bg-blue/80  border-2 border-lightGray transition-all ease-in-out duration-150"
-              onClick={() => addCart({ addCardDetails, id: _id })}
+              onClick={handleAddCart}
               disabled={addCartPending}
             >
               {isPending ? "LOADING..." : "ADD TO CART"}

@@ -54,7 +54,7 @@ const MenuButton = () => {
           categories.map((item, i) => (
             <Link
               key={i}
-              to=""
+              to={`products?g=${item.gender}`}
               className="text-base font-semibold py-1 transition-all ease-in-out duration-200 hover:text-cyan flex items-center gap-2"
             >
               {createElement(item.icon)}
@@ -68,7 +68,7 @@ const MenuButton = () => {
           menuData.categoryLinks.map((item, i) => (
             <Link
               key={i}
-              to=""
+              to={item.link}
               className="text-base font-semibold py-1 transition-all ease-in-out duration-200 hover:text-cyan flex items-center gap-2"
             >
               {createElement(item.icon)}
@@ -82,7 +82,7 @@ const MenuButton = () => {
           menuData.profileLinks.map((item, i) => (
             <Link
               key={i}
-              to=""
+              to={item.link}
               className="text-base font-semibold py-1 transition-all ease-in-out duration-200 hover:text-cyan flex items-center gap-2"
             >
               {createElement(item.icon)}

@@ -19,6 +19,19 @@ const Products = () => {
   let [searchParams, setSearchParams] = useSearchParams();
 
   //filter states
+  const [filterStates, setFilterStates] = useState({
+    gender: "",
+    category: [],
+    color: [],
+    lPrice: "",
+    hPrice: "",
+    lRating: "",
+    discount: "",
+    sort: "",
+    page: "",
+  });
+
+  //states
   const [keyword, setKeyword] = useState("");
   const [gender, setGender] = useState("");
   const [category, setCategory] = useState([]);
@@ -95,15 +108,6 @@ const Products = () => {
 
   //useEffect
   useEffect(() => {
-    if (isLoading) {
-      backToTopHanlder();
-    }
-    if (isError) {
-      toast.error(error.response.data.message);
-    }
-  }, [isError, error, isLoading, backToTopHanlder]);
-
-  useEffect(() => {
     if (searchParams.get("keyword") !== null) {
       setKeyword(searchParams.get("keyword"));
     }
@@ -138,6 +142,15 @@ const Products = () => {
       setPage(searchParams.get("p"));
     }
   }, [searchParams]);
+
+  useEffect(() => {
+    if (isLoading) {
+      backToTopHanlder();
+    }
+    if (isError) {
+      toast.error(error.response.data.message);
+    }
+  }, [isError, error, isLoading, backToTopHanlder]);
 
   //useLayout
   useLayoutEffect(() => {
@@ -181,6 +194,8 @@ const Products = () => {
               page={page}
               setPage={setPage}
               refetch={refetch}
+              filterStates={filterStates}
+              setFilterStates={setFilterStates}
             />
 
             <div

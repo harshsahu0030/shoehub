@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   all_category,
   categories,
@@ -35,7 +35,6 @@ const Filters = ({
   setSort,
   page,
   setPage,
-  refetch,
 }) => {
   //states
   let [searchParams, setSearchParams] = useSearchParams();
@@ -47,7 +46,20 @@ const Filters = ({
     setCategoryArr(
       categories.find((cat) => cat.gender === e.target.value).types
     );
+    setCategory([]);
     setPage(1);
+
+    setSearchParams(
+      `?${keyword !== "" ? `&keyword=${keyword}` : ""}${
+        gender !== "" ? `&g=${e.target.value}` : ""
+      }${lRating ? `&ratl=${lRating}` : ""}${
+        discount ? `&dis=${discount}` : ""
+      }${color && color.length > 0 ? `&col=${color?.join(" ")}` : ""}${
+        lPrice ? `&lp=${lPrice}` : ""
+      }${hPrice ? `&hp=${hPrice}` : ""}${
+        sort !== "" ? `&sort=${sort?.split(",")?.join(" ")}` : ""
+      }${page !== "" ? `&p=${page}` : ""}`
+    );
   };
 
   const handleChangeCategory = async (e) => {
@@ -62,21 +74,52 @@ const Filters = ({
 
     setCategory(newCat);
     setPage(1);
-  };
 
-  const handleChangePrice = async (e) => {
-    setLRating(e.target.value);
-    setPage(1);
+    setSearchParams(
+      `?${keyword !== "" ? `&keyword=${keyword}` : ""}${
+        gender !== "" ? `&g=${gender}` : ""
+      }${category && category.length > 0 ? `&cat=${newCat?.join(" ")}` : ""}${
+        lRating ? `&ratl=${lRating}` : ""
+      }${discount ? `&dis=${discount}` : ""}${
+        color && color.length > 0 ? `&col=${color?.join(" ")}` : ""
+      }${lPrice ? `&lp=${lPrice}` : ""}${hPrice ? `&hp=${hPrice}` : ""}${
+        sort !== "" ? `&sort=${sort?.split(",")?.join(" ")}` : ""
+      }${page !== "" ? `&p=${page}` : ""}`
+    );
   };
 
   const handleChangeRatings = async (e) => {
     setLRating(e.target.value);
     setPage(1);
+
+    setSearchParams(
+      `?${keyword !== "" ? `&keyword=${keyword}` : ""}${
+        gender !== "" ? `&g=${gender}` : ""
+      }${category && category.length > 0 ? `&cat=${category?.join(" ")}` : ""}${
+        lRating ? `&ratl=${e.target.value}` : ""
+      }${discount ? `&dis=${discount}` : ""}${
+        color && color.length > 0 ? `&col=${color?.join(" ")}` : ""
+      }${lPrice ? `&lp=${lPrice}` : ""}${hPrice ? `&hp=${hPrice}` : ""}${
+        sort !== "" ? `&sort=${sort?.split(",")?.join(" ")}` : ""
+      }${page !== "" ? `&p=${page}` : ""}`
+    );
   };
 
   const handleChangeDiscount = async (e) => {
     setDiscount(e.target.value);
     setPage(1);
+
+    setSearchParams(
+      `?${keyword !== "" ? `&keyword=${keyword}` : ""}${
+        gender !== "" ? `&g=${gender}` : ""
+      }${category && category.length > 0 ? `&cat=${category?.join(" ")}` : ""}${
+        lRating ? `&ratl=${lRating}` : ""
+      }${discount ? `&dis=${e.target.value}` : ""}${
+        color && color.length > 0 ? `&col=${color?.join(" ")}` : ""
+      }${lPrice ? `&lp=${lPrice}` : ""}${hPrice ? `&hp=${hPrice}` : ""}${
+        sort !== "" ? `&sort=${sort?.split(",")?.join(" ")}` : ""
+      }${page !== "" ? `&p=${page}` : ""}`
+    );
   };
 
   const handleChangeColor = async (e) => {
@@ -91,34 +134,19 @@ const Filters = ({
 
     setColor(newCol);
     setPage(1);
-  };
 
-  useEffect(() => {
     setSearchParams(
       `?${keyword !== "" ? `&keyword=${keyword}` : ""}${
         gender !== "" ? `&g=${gender}` : ""
       }${category && category.length > 0 ? `&cat=${category?.join(" ")}` : ""}${
         lRating ? `&ratl=${lRating}` : ""
       }${discount ? `&dis=${discount}` : ""}${
-        color && color.length > 0 ? `&col=${color?.join(" ")}` : ""
+        color && color.length > 0 ? `&col=${newCol?.join(" ")}` : ""
       }${lPrice ? `&lp=${lPrice}` : ""}${hPrice ? `&hp=${hPrice}` : ""}${
         sort !== "" ? `&sort=${sort?.split(",")?.join(" ")}` : ""
       }${page !== "" ? `&p=${page}` : ""}`
     );
-  }, [
-    setSearchParams,
-    lPrice,
-    hPrice,
-    sort,
-    keyword,
-    gender,
-    category,
-    lRating,
-    color,
-    discount,
-    page,
-    refetch,
-  ]);
+  };
 
   return (
     <div className="container flex flex-col gap-3 bg-white p-5 md:p-0">

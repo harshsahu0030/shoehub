@@ -8,14 +8,26 @@ import { PiEyesLight } from "react-icons/pi";
 
 export const menuData = {
   categoryLinks: [
-    { name: "newly launched", link: "/", icon: MdNewReleases },
-    { name: "trending", link: "/", icon: GiStarSwirl },
-    { name: "best sellers", link: "/", icon: BiSolidDiscount },
+    {
+      name: "newly launched",
+      link: "/products?sort=createdAt+-1",
+      icon: MdNewReleases,
+    },
+    {
+      name: "top rated",
+      link: "/products?sort=ratings+-1",
+      icon: GiStarSwirl,
+    },
+    {
+      name: "best sellers",
+      link: "/products?numOfOrders+-1",
+      icon: BiSolidDiscount,
+    },
   ],
   profileLinks: [
-    { name: "my account", link: "/", icon: AiOutlineUser },
-    { name: "cart", link: "/", icon: BsHandbag },
-    { name: "wishlist", link: "/", icon: IoMdHeartEmpty },
+    { name: "my account", link: "/profile", icon: AiOutlineUser },
+    { name: "cart", link: "/cart", icon: BsHandbag },
+    { name: "wishlist", link: "/wishlist", icon: IoMdHeartEmpty },
     { name: "recently visited", link: "/", icon: PiEyesLight },
   ],
 };

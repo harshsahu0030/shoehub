@@ -16,10 +16,10 @@ export const getAllProductsApi = async ({
   let link = `/api/v1/products?${keyword !== "" ? `keyword=${keyword}` : ""}${
     gender !== "" ? `&gender=${gender}` : ""
   }${
-    category && category.length > 0 ? `&category=${category?.join(" ")}` : ""
+    category && category.length > 0 ? `&category=${category?.join(",")}` : ""
   }${lRating ? `&ratings[gte]=${lRating}` : ""}${
     discount ? `&discount[gte]=${discount}` : ""
-  }${color && color.length > 0 ? `&color=${color?.join(" ")}` : ""}${
+  }${color && color.length > 0 ? `&color=${color?.join(",")}` : ""}${
     lPrice ? `&price[gte]=${lPrice}` : ""
   }${hPrice ? `&price[lte]=${hPrice}` : ""}${
     sort !== "" ? `&sort=${sort}` : ""

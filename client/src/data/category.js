@@ -4,26 +4,12 @@ export const categories = [
   {
     gender: "men",
     icon: BiMale,
-    types: [
-      "oxfords",
-      "loafers",
-      "boots",
-      "sneakers",
-      "sandal",
-      "running shoes",
-    ],
+    types: ["oxfords", "loafers", "boots", "sneakers", "sandal", "running"],
   },
   {
     gender: "women",
     icon: BiFemale,
-    types: [
-      "oxfords",
-      "loafers",
-      "boots",
-      "sneakers",
-      "heels",
-      "running shoes",
-    ],
+    types: ["oxfords", "loafers", "boots", "sneakers", "heels", "running"],
   },
 ];
 
@@ -36,7 +22,7 @@ export const all_category = {
     "sneakers",
     "sandal",
     "heels",
-    "running shoes",
+    "running",
   ],
 };
 
