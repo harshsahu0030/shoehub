@@ -5,19 +5,11 @@ import { AdminUser, AuthenticatedUser, Authentication, Layout } from "./Layout";
 import { lazy } from "react";
 import Error from "./pages/Error.jsx";
 import Loader from "./components/loaders/Loader.jsx";
-import OtpVerification from "./pages/OtpVerification.jsx";
-import Dashboard from "./pages/Admin/Dashboard.jsx";
-import AdminProducts from "./pages/Admin/AdminProducts.jsx";
-import AdminOrders from "./pages/Admin/AdminOrders.jsx";
-import AdminUsers from "./pages/Admin/AdminUsers.jsx";
-import Admin from "./pages/Admin/Admin.jsx";
-import CreateProduct from "./pages/Admin/CreateProduct.jsx";
 import AdminError from "./pages/Admin/AdminError.jsx";
-import UpdateProducts from "./pages/Admin/UpdateProducts.jsx";
-import SearchPage from "./pages/SearchPage.jsx";
 
 //routes import
 const Home = lazy(() => import("./pages/Home.jsx"));
+const SearchPage = lazy(() => import("./pages/SearchPage.jsx"));
 const Products = lazy(() => import("./pages/Products.jsx"));
 const Product = lazy(() => import("./pages/Product.jsx"));
 const Signin = lazy(() => import("./pages/Signin.jsx"));
@@ -30,6 +22,16 @@ const Wishlist = lazy(() => import("./pages/Wishlist.jsx"));
 const UpdatePassword = lazy(() => import("./pages/UpdatePassword.jsx"));
 const ForgotPassword = lazy(() => import("./pages/ForgotPassword.jsx"));
 const ResetPassword = lazy(() => import("./pages/ResetPassword.jsx"));
+const OtpVerification = lazy(() => import("./pages/OtpVerification.jsx"));
+
+//admin routes import
+const Dashboard = lazy(() => import("./pages/Admin/Dashboard.jsx"));
+const AdminProducts = lazy(() => import("./pages/Admin/AdminProducts.jsx"));
+const AdminOrders = lazy(() => import("./pages/Admin/AdminOrders.jsx"));
+const AdminUsers = lazy(() => import("./pages/Admin/AdminUsers.jsx"));
+const Admin = lazy(() => import("./pages/Admin/Admin.jsx"));
+const CreateProduct = lazy(() => import("./pages/Admin/CreateProduct.jsx"));
+const UpdateProducts = lazy(() => import("./pages/Admin/UpdateProducts.jsx"));
 
 const App = () => {
   const router = createBrowserRouter([
