@@ -9,10 +9,11 @@ import { useContext } from "react";
 import { AuthContext } from "../../context/Authuser";
 import { FiPlus, FiMinus } from "react-icons/fi";
 import { MdDeleteOutline } from "react-icons/md";
-import SelectInput from "../inputs/SelectInput";
+import { useNavigate } from "react-router-dom";
 
 const CartProductCard = ({ data, refetch }) => {
   const { refetch: userRefetch } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   //react-quries
   const { mutate: updateMutation, isPending: updatePending } = useMutation({
@@ -41,6 +42,38 @@ const CartProductCard = ({ data, refetch }) => {
     },
   });
 
+  //function
+  const handleQuantityUpdate = (value) => {
+    let availableQuanity = data?.product?.sizes?.find(
+      (item) => item.size === data.size
+    );
+
+    if (value === "increase") {
+      if (parseInt(availableQuanity.stock) < parseInt(data.quantity + 1)) {
+        toast.error("Out Of Stock");
+      } else {
+        updateMutation({
+          updateCardDetails: {
+            quantity: data.quantity + 1,
+          },
+          id: data._id,
+        });
+      }
+    }
+    if (value === "decrease") {
+      if (data.quantity - 1 === 0) {
+        toast.error("Quantity cannot be 0");
+      } else {
+        updateMutation({
+          updateCardDetails: {
+            quantity: data.quantity - 1,
+          },
+          id: data._id,
+        });
+      }
+    }
+  };
+
   return (
     <div className="flex gap-2 h-[30vh] md:h-[25vh] lg:h-[20vh] xl:h-[30vh] border border-lightGray/30 rounded-lg overflow-hidden hover:shadow-lg hover:shadow-lightGray-500/50 bg-lightGray/10 px-5">
       {/* top  */}
@@ -54,8 +87,11 @@ const CartProductCard = ({ data, refetch }) => {
       </div>
 
       {/* bottom  */}
-      <div className="flex flex-col justify-center gap-2 h-full w-[60%] text-xs">
-        <div className="flex flex-col">
+      <div className="flex flex-col justify-center gap-2 h-full w-[60%] text-xs cu">
+        <div
+          className="flex flex-col cursor-pointer hover:text-blue transition-all"
+          onClick={() => navigate(`/products/${data.product._id}`)}
+        >
           <h5 className="uppercase font-bold line-clamp-1">
             {data.product.brand}
           </h5>
@@ -83,32 +119,19 @@ const CartProductCard = ({ data, refetch }) => {
         {/* quantity */}
         <div className="flex items-center gap-2 text-md md:text-lg">
           <button
-            className="p-2 hover:scale-125 transition-all"
+            className="p-2 hover:scale-125 transition-all disabled:cursor-wait"
             disabled={updatePending}
-            onClick={() =>
-              updateMutation({
-                updateCardDetails: {
-                  quantity: data.quantity - 1,
-                },
-                id: data._id,
-              })
-            }
+            onClick={() => handleQuantityUpdate("decrease")}
           >
             <FiMinus />
           </button>
           <span className="p-2 bg-lightGray/20">{data.quantity}</span>
-          <button className="p-2 hover:scale-125 transition-all">
-            <FiPlus
-              disabled={updatePending}
-              onClick={() =>
-                updateMutation({
-                  updateCardDetails: {
-                    quantity: data.quantity + 1,
-                  },
-                  id: data._id,
-                })
-              }
-            />
+          <button
+            className="p-2 hover:scale-125 transition-all disabled:cursor-wait"
+            disabled={updatePending}
+            onClick={() => handleQuantityUpdate("increase")}
+          >
+            <FiPlus />
           </button>
         </div>
 
@@ -116,22 +139,7 @@ const CartProductCard = ({ data, refetch }) => {
           {/* size  */}
           <div className="flex items-center gap-1">
             <span className="text-md font-semibold">Size : </span>
-            <SelectInput
-              id={"cart-product-size"}
-              type={"text"}
-              name={"size"}
-              value={data.size}
-              onChange={(e) =>
-                updateMutation({
-                  updateCardDetails: {
-                    size: e.target.value,
-                  },
-                  id: data._id,
-                })
-              }
-              options={data?.product?.sizes?.map((item) => item.size)}
-              occasion={"cart"}
-            />
+            <span className="text-lg font-semibold">{data.size}</span>
           </div>
 
           <button
@@ -150,6 +158,7 @@ const CartProductCard = ({ data, refetch }) => {
 CartProductCard.propTypes = {
   data: propTypes.object,
   refetch: propTypes.func,
+  loading: propTypes.bool,
 };
 
 export default CartProductCard;

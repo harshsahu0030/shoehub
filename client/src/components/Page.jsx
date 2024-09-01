@@ -1,7 +1,7 @@
 import Pagination from "@mui/material/Pagination";
 import propTypes from "prop-types";
 
-const Page = ({ products, resultPerPage, page, setPage }) => {
+const Page = ({ products, resultPerPage, page, handleSetPage }) => {
   return (
     <Pagination
       style={{
@@ -11,7 +11,7 @@ const Page = ({ products, resultPerPage, page, setPage }) => {
       }}
       page={page}
       count={Math.ceil(products / resultPerPage)}
-      onChange={(_, value) => setPage(value)}
+      onChange={(_, value) => handleSetPage(value)}
       variant="outlined"
       color="primary"
     />
@@ -21,7 +21,7 @@ const Page = ({ products, resultPerPage, page, setPage }) => {
 Page.propTypes = {
   products: propTypes.number,
   page: propTypes.number,
-  setPage: propTypes.func,
+  handleSetPage: propTypes.func,
   resultPerPage: propTypes.string,
 };
 

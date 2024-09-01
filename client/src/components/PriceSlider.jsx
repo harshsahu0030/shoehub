@@ -3,16 +3,11 @@ import Slider from "@mui/material/Slider";
 import { useState } from "react";
 import propTypes from "prop-types";
 
-export default function PriceSlider({ setLPrice, setHPrice }) {
+export default function PriceSlider({ handleChangePrice }) {
   const [value, setValue] = useState([0, 21000]);
 
   const handleChange = (e) => {
     setValue(e.target.value);
-  };
-
-  const handleSubmit = () => {
-    setLPrice(value[0]);
-    setHPrice(value[1]);
   };
 
   return (
@@ -27,7 +22,7 @@ export default function PriceSlider({ setLPrice, setHPrice }) {
       />
       <button
         className="px-3 py-1 rounded-md bg-blue text-sm font-semibold text-white"
-        onClick={handleSubmit}
+        onClick={() => handleChangePrice(value)}
       >
         GO
       </button>
@@ -36,8 +31,5 @@ export default function PriceSlider({ setLPrice, setHPrice }) {
 }
 
 PriceSlider.propTypes = {
-  hPrice: propTypes.number,
-  setHPrice: propTypes.func,
-  lPrice: propTypes.number,
-  setLPrice: propTypes.func,
+  handleChangePrice: propTypes.func,
 };

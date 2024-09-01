@@ -59,6 +59,14 @@ export const getProductsApi = async (id) => {
   return data;
 };
 
+//get similar  Products
+export const getSimilarProductsApi = async ({ gender, category }) => {
+  const { data } = await axios.get(
+    `/api/v1/products?gender=${gender}&category=${category}`
+  );
+  return data;
+};
+
 //reviews
 //add am=nd update Product
 export const addAndUpdateReviewProductApi = async ({ commentForm, id }) => {

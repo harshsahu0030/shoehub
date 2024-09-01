@@ -34,7 +34,7 @@ const WishlistCard = ({ data, refetch }) => {
           alt="product image"
           loading="lazy"
           className="h-full container object-contain group-hover/card-image:scale-110 transition-all ease-in-out duration-300"
-          onClick={() => navigate(`/products${data._id}`)}
+          onClick={() => navigate(`/products/${data._id}`)}
         />
         <div className="absolute flex gap-1 items-center bottom-1 left-1 text-xs font-bold bg-white/90 py-1 px-2 rounded-sm">
           <span className="flex items-center gap-1">

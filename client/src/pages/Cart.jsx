@@ -53,6 +53,7 @@ const Cart = () => {
                   <CartProductCard
                     key={item._id}
                     data={item}
+                    f
                     refetch={refetch}
                   />
                 ))

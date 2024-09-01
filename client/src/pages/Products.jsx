@@ -84,8 +84,161 @@ const Products = () => {
   });
 
   //functions
+  const handleChangeGender = async (e) => {
+    setGender(e.target.value);
+    setCategoryArr(
+      categories.find((cat) => cat.gender === e.target.value).types
+    );
+    setCategory([]);
+    setPage(1);
+
+    setSearchParams(
+      `?${keyword !== "" ? `&keyword=${keyword}` : ""}${
+        gender !== "" ? `&g=${e.target.value}` : ""
+      }${lRating ? `&ratl=${lRating}` : ""}${
+        discount ? `&dis=${discount}` : ""
+      }${color && color.length > 0 ? `&col=${color?.join(" ")}` : ""}${
+        lPrice ? `&lp=${lPrice}` : ""
+      }${hPrice ? `&hp=${hPrice}` : ""}${
+        sort !== "" ? `&sort=${sort?.split(",")?.join(" ")}` : ""
+      }${page !== "" ? `&p=${page}` : ""}`
+    );
+  };
+
+  const handleChangeCategory = async (e) => {
+    let newCat = [...category];
+
+    if (e.target.checked === true) {
+      newCat.push(e.target.value);
+    } else {
+      let index = newCat.indexOf(e.target.value);
+      newCat.splice(index, 1);
+    }
+
+    setCategory(newCat);
+    setPage(1);
+
+    setSearchParams(
+      `?${keyword !== "" ? `&keyword=${keyword}` : ""}${
+        gender !== "" ? `&g=${gender}` : ""
+      }${category && category.length > 0 ? `&cat=${newCat?.join(" ")}` : ""}${
+        lRating ? `&ratl=${lRating}` : ""
+      }${discount ? `&dis=${discount}` : ""}${
+        color && color.length > 0 ? `&col=${color?.join(" ")}` : ""
+      }${lPrice ? `&lp=${lPrice}` : ""}${hPrice ? `&hp=${hPrice}` : ""}${
+        sort !== "" ? `&sort=${sort?.split(",")?.join(" ")}` : ""
+      }${page !== "" ? `&p=${page}` : ""}`
+    );
+  };
+
+  const handleChangePrice = (value) => {
+    setLPrice(value[0]);
+    setHPrice(value[1]);
+    setPage(1);
+
+    setSearchParams(
+      `?${keyword !== "" ? `&keyword=${keyword}` : ""}${
+        gender !== "" ? `&g=${gender}` : ""
+      }${lRating ? `&ratl=${lRating}` : ""}${
+        discount ? `&dis=${discount}` : ""
+      }${color && color.length > 0 ? `&col=${color?.join(" ")}` : ""}${
+        lPrice ? `&lp=${value[0]}` : ""
+      }${hPrice ? `&hp=${value[1]}` : ""}${
+        sort !== "" ? `&sort=${sort?.split(",")?.join(" ")}` : ""
+      }${page !== "" ? `&p=${page}` : ""}`
+    );
+  };
+
+  const handleChangeRatings = async (e) => {
+    setLRating(e.target.value);
+    setPage(1);
+
+    setSearchParams(
+      `?${keyword !== "" ? `&keyword=${keyword}` : ""}${
+        gender !== "" ? `&g=${gender}` : ""
+      }${category && category.length > 0 ? `&cat=${category?.join(" ")}` : ""}${
+        lRating ? `&ratl=${e.target.value}` : ""
+      }${discount ? `&dis=${discount}` : ""}${
+        color && color.length > 0 ? `&col=${color?.join(" ")}` : ""
+      }${lPrice ? `&lp=${lPrice}` : ""}${hPrice ? `&hp=${hPrice}` : ""}${
+        sort !== "" ? `&sort=${sort?.split(",")?.join(" ")}` : ""
+      }${page !== "" ? `&p=${page}` : ""}`
+    );
+  };
+
+  const handleChangeDiscount = async (e) => {
+    setDiscount(e.target.value);
+    setPage(1);
+
+    setSearchParams(
+      `?${keyword !== "" ? `&keyword=${keyword}` : ""}${
+        gender !== "" ? `&g=${gender}` : ""
+      }${category && category.length > 0 ? `&cat=${category?.join(" ")}` : ""}${
+        lRating ? `&ratl=${lRating}` : ""
+      }${discount ? `&dis=${e.target.value}` : ""}${
+        color && color.length > 0 ? `&col=${color?.join(" ")}` : ""
+      }${lPrice ? `&lp=${lPrice}` : ""}${hPrice ? `&hp=${hPrice}` : ""}${
+        sort !== "" ? `&sort=${sort?.split(",")?.join(" ")}` : ""
+      }${page !== "" ? `&p=${page}` : ""}`
+    );
+  };
+
+  const handleChangeColor = async (e) => {
+    let newCol = [...color];
+
+    if (e.target.checked === true) {
+      newCol.push(e.target.value);
+    } else {
+      let index = newCol.indexOf(e.target.value);
+      newCol.splice(index, 1);
+    }
+
+    setColor(newCol);
+    setPage(1);
+
+    setSearchParams(
+      `?${keyword !== "" ? `&keyword=${keyword}` : ""}${
+        gender !== "" ? `&g=${gender}` : ""
+      }${category && category.length > 0 ? `&cat=${category?.join(" ")}` : ""}${
+        lRating ? `&ratl=${lRating}` : ""
+      }${discount ? `&dis=${discount}` : ""}${
+        color && color.length > 0 ? `&col=${newCol?.join(" ")}` : ""
+      }${lPrice ? `&lp=${lPrice}` : ""}${hPrice ? `&hp=${hPrice}` : ""}${
+        sort !== "" ? `&sort=${sort?.split(",")?.join(" ")}` : ""
+      }${page !== "" ? `&p=${page}` : ""}`
+    );
+  };
+
   const handleSortProduct = (e) => {
     setSort(e.target.value);
+
+    setSearchParams(
+      `?${keyword !== "" ? `&keyword=${keyword}` : ""}${
+        gender !== "" ? `&g=${gender}` : ""
+      }${lRating ? `&ratl=${lRating}` : ""}${
+        discount ? `&dis=${discount}` : ""
+      }${color && color.length > 0 ? `&col=${color?.join(" ")}` : ""}${
+        lPrice ? `&lp=${lPrice}` : ""
+      }${hPrice ? `&hp=${hPrice}` : ""}${
+        sort !== "" ? `&sort=${e.target.value?.split(",")?.join(" ")}` : ""
+      }${page !== "" ? `&p=${page}` : ""}`
+    );
+  };
+
+  const handleSetPage = (value) => {
+    setPage(value);
+
+    setSearchParams(
+      `?${keyword !== "" ? `&keyword=${keyword}` : ""}${
+        gender !== "" ? `&g=${gender}` : ""
+      }${lRating ? `&ratl=${lRating}` : ""}${
+        discount ? `&dis=${discount}` : ""
+      }${color && color.length > 0 ? `&col=${color?.join(" ")}` : ""}${
+        lPrice ? `&lp=${lPrice}` : ""
+      }${hPrice ? `&hp=${hPrice}` : ""}${
+        sort !== "" ? `&sort=${sort?.split(",")?.join(" ")}` : ""
+      }${page !== "" ? `&p=${value}` : ""}`
+    );
   };
 
   const handleToggleFilter = (value) => {
@@ -196,6 +349,12 @@ const Products = () => {
               refetch={refetch}
               filterStates={filterStates}
               setFilterStates={setFilterStates}
+              handleChangeGender={handleChangeGender}
+              handleChangeCategory={handleChangeCategory}
+              handleChangePrice={handleChangePrice}
+              handleChangeDiscount={handleChangeDiscount}
+              handleChangeColor={handleChangeColor}
+              handleChangeRatings={handleChangeRatings}
             />
 
             <div
@@ -218,7 +377,7 @@ const Products = () => {
               </button>
 
               {/* right  */}
-              <div className="flex items-center h-full">
+              <div className="h-full flex items-center">
                 <select
                   type={"select"}
                   name={sort}
@@ -246,7 +405,7 @@ const Products = () => {
               </div>
             </div>
 
-            <div className="h-full grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 overflow-hidden">
+            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 overflow-hidden">
               {!isLoading ? (
                 productsData?.data?.products.length > 0 ? (
                   productsData?.data?.products?.map((item) => (
@@ -263,8 +422,8 @@ const Products = () => {
               <Page
                 products={productsData?.data?.filteredProductsCount}
                 resultPerPage={productsData?.data?.resultPerPage}
-                setPage={setPage}
                 page={parseInt(page)}
+                handleSetPage={handleSetPage}
               />
             </Stack>
           </div>

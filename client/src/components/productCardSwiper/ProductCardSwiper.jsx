@@ -14,7 +14,7 @@ import useWindowSize from "../../hook/useWindowSize";
 import ProductCardLoader from "../loaders/ProductCardLoader";
 import propTypes from "prop-types";
 
-const ProductCardSwiper = ({ data, loading }) => {
+const ProductCardSwiper = ({ data, loading, type }) => {
   const { width } = useWindowSize();
 
   //useState
@@ -24,7 +24,19 @@ const ProductCardSwiper = ({ data, loading }) => {
     <div className="relative">
       {!loading ? (
         <Swiper
-          slidesPerView={width <= 640 ? 2 : width <= 1024 ? 3 : 4}
+          slidesPerView={
+            type === "similar"
+              ? width <= 640
+                ? 2
+                : width <= 1024
+                ? 4
+                : 6
+              : width <= 640
+              ? 2
+              : width <= 1024
+              ? 3
+              : 4
+          }
           spaceBetween={10}
           modules={[Navigation, FreeMode]}
           className="h-[100%] w-[100%] overflow-hidden"
@@ -60,6 +72,7 @@ const ProductCardSwiper = ({ data, loading }) => {
 ProductCardSwiper.propTypes = {
   data: propTypes.array,
   loading: propTypes.bool,
+  type: propTypes.string,
 };
 
 export default ProductCardSwiper;

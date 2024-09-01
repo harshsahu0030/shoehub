@@ -10,7 +10,7 @@ import { AuthContext } from "../../context/Authuser";
 
 const ProductCard = ({ data }) => {
   const navigate = useNavigate();
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser, refetch } = useContext(AuthContext);
 
   //state
   const [changeHeart, setChangeHeart] = useState(false);
@@ -25,6 +25,7 @@ const ProductCard = ({ data }) => {
     onSuccess: (data) => {
       toast.success(data.message);
       setChangeHeart(true);
+      refetch();
     },
   });
 

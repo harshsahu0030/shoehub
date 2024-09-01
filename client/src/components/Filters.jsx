@@ -13,14 +13,12 @@ import propTypes from "prop-types";
 import PriceSlider from "./PriceSlider";
 
 const Filters = ({
-  keyword,
   setKeyword,
   gender,
   setGender,
   category,
   setCategory,
   categoryArr,
-  setCategoryArr,
   lPrice,
   setLPrice,
   hPrice,
@@ -31,122 +29,19 @@ const Filters = ({
   setColor,
   discount,
   setDiscount,
-  sort,
   setSort,
-  page,
-  setPage,
+  handleChangeGender,
+  handleChangeCategory,
+  handleChangePrice,
+  handleChangeDiscount,
+  handleChangeColor,
+  handleChangeRatings,
 }) => {
   //states
   let [searchParams, setSearchParams] = useSearchParams();
   const [showColor, setShowColor] = useState(false);
 
   //functions
-  const handleChangeGender = async (e) => {
-    setGender(e.target.value);
-    setCategoryArr(
-      categories.find((cat) => cat.gender === e.target.value).types
-    );
-    setCategory([]);
-    setPage(1);
-
-    setSearchParams(
-      `?${keyword !== "" ? `&keyword=${keyword}` : ""}${
-        gender !== "" ? `&g=${e.target.value}` : ""
-      }${lRating ? `&ratl=${lRating}` : ""}${
-        discount ? `&dis=${discount}` : ""
-      }${color && color.length > 0 ? `&col=${color?.join(" ")}` : ""}${
-        lPrice ? `&lp=${lPrice}` : ""
-      }${hPrice ? `&hp=${hPrice}` : ""}${
-        sort !== "" ? `&sort=${sort?.split(",")?.join(" ")}` : ""
-      }${page !== "" ? `&p=${page}` : ""}`
-    );
-  };
-
-  const handleChangeCategory = async (e) => {
-    let newCat = [...category];
-
-    if (e.target.checked === true) {
-      newCat.push(e.target.value);
-    } else {
-      let index = newCat.indexOf(e.target.value);
-      newCat.splice(index, 1);
-    }
-
-    setCategory(newCat);
-    setPage(1);
-
-    setSearchParams(
-      `?${keyword !== "" ? `&keyword=${keyword}` : ""}${
-        gender !== "" ? `&g=${gender}` : ""
-      }${category && category.length > 0 ? `&cat=${newCat?.join(" ")}` : ""}${
-        lRating ? `&ratl=${lRating}` : ""
-      }${discount ? `&dis=${discount}` : ""}${
-        color && color.length > 0 ? `&col=${color?.join(" ")}` : ""
-      }${lPrice ? `&lp=${lPrice}` : ""}${hPrice ? `&hp=${hPrice}` : ""}${
-        sort !== "" ? `&sort=${sort?.split(",")?.join(" ")}` : ""
-      }${page !== "" ? `&p=${page}` : ""}`
-    );
-  };
-
-  const handleChangeRatings = async (e) => {
-    setLRating(e.target.value);
-    setPage(1);
-
-    setSearchParams(
-      `?${keyword !== "" ? `&keyword=${keyword}` : ""}${
-        gender !== "" ? `&g=${gender}` : ""
-      }${category && category.length > 0 ? `&cat=${category?.join(" ")}` : ""}${
-        lRating ? `&ratl=${e.target.value}` : ""
-      }${discount ? `&dis=${discount}` : ""}${
-        color && color.length > 0 ? `&col=${color?.join(" ")}` : ""
-      }${lPrice ? `&lp=${lPrice}` : ""}${hPrice ? `&hp=${hPrice}` : ""}${
-        sort !== "" ? `&sort=${sort?.split(",")?.join(" ")}` : ""
-      }${page !== "" ? `&p=${page}` : ""}`
-    );
-  };
-
-  const handleChangeDiscount = async (e) => {
-    setDiscount(e.target.value);
-    setPage(1);
-
-    setSearchParams(
-      `?${keyword !== "" ? `&keyword=${keyword}` : ""}${
-        gender !== "" ? `&g=${gender}` : ""
-      }${category && category.length > 0 ? `&cat=${category?.join(" ")}` : ""}${
-        lRating ? `&ratl=${lRating}` : ""
-      }${discount ? `&dis=${e.target.value}` : ""}${
-        color && color.length > 0 ? `&col=${color?.join(" ")}` : ""
-      }${lPrice ? `&lp=${lPrice}` : ""}${hPrice ? `&hp=${hPrice}` : ""}${
-        sort !== "" ? `&sort=${sort?.split(",")?.join(" ")}` : ""
-      }${page !== "" ? `&p=${page}` : ""}`
-    );
-  };
-
-  const handleChangeColor = async (e) => {
-    let newCol = [...color];
-
-    if (e.target.checked === true) {
-      newCol.push(e.target.value);
-    } else {
-      let index = newCol.indexOf(e.target.value);
-      newCol.splice(index, 1);
-    }
-
-    setColor(newCol);
-    setPage(1);
-
-    setSearchParams(
-      `?${keyword !== "" ? `&keyword=${keyword}` : ""}${
-        gender !== "" ? `&g=${gender}` : ""
-      }${category && category.length > 0 ? `&cat=${category?.join(" ")}` : ""}${
-        lRating ? `&ratl=${lRating}` : ""
-      }${discount ? `&dis=${discount}` : ""}${
-        color && color.length > 0 ? `&col=${newCol?.join(" ")}` : ""
-      }${lPrice ? `&lp=${lPrice}` : ""}${hPrice ? `&hp=${hPrice}` : ""}${
-        sort !== "" ? `&sort=${sort?.split(",")?.join(" ")}` : ""
-      }${page !== "" ? `&p=${page}` : ""}`
-    );
-  };
 
   return (
     <div className="container flex flex-col gap-3 bg-white p-5 md:p-0">
@@ -159,9 +54,12 @@ const Filters = ({
             setGender("");
             setCategory([]);
             setLRating("");
+            setLPrice("");
+            setHPrice("");
+            setColor([]);
             setDiscount("");
-            setColor("");
             setSort("");
+            setSearchParams("");
           }}
         >
           Reset
@@ -207,7 +105,7 @@ const Filters = ({
                     type="checkbox"
                     name="categories"
                     id="categories"
-                    checked={category.includes(item)}
+                    checked={category?.includes(item)}
                     value={item}
                     onChange={handleChangeCategory}
                   />
@@ -226,6 +124,7 @@ const Filters = ({
                     name="categories"
                     id="categories"
                     value={item}
+                    checked={category?.includes(item)}
                     onChange={handleChangeCategory}
                   />
                   <label
@@ -249,6 +148,7 @@ const Filters = ({
             setLPrice={setLPrice}
             hPrice={hPrice}
             setHPrice={setHPrice}
+            handleChangePrice={handleChangePrice}
           />
         </div>
       </div>
@@ -342,7 +242,7 @@ const Filters = ({
                   type="checkbox"
                   name="color"
                   id="color"
-                  checked={color.includes(item.name)}
+                  checked={color?.includes(item.name)}
                   value={item.name}
                   onChange={handleChangeColor}
                 />
@@ -400,6 +300,12 @@ Filters.propTypes = {
   page: propTypes.string,
   setPage: propTypes.func,
   refetch: propTypes.func,
+  handleChangeGender: propTypes.func,
+  handleChangeCategory: propTypes.func,
+  handleChangePrice: propTypes.func,
+  handleChangeDiscount: propTypes.func,
+  handleChangeColor: propTypes.func,
+  handleChangeRatings: propTypes.func,
 };
 
 export default Filters;

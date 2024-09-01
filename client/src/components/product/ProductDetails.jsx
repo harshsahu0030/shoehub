@@ -16,6 +16,8 @@ const ProductDetails = ({ product }) => {
     brand,
     title,
     mrp,
+    gender,
+    category,
     price,
     discount,
     sizes,
@@ -74,8 +76,6 @@ const ProductDetails = ({ product }) => {
   const handleAddCart = () => {
     addCart({ addCardDetails, id: _id });
   };
-
-  //useEffect
 
   return (
     product && (
@@ -186,7 +186,7 @@ const ProductDetails = ({ product }) => {
         </div>
 
         {/* id  */}
-        <div className="flex flex-col text-sm self-end font-semibold text-gray">
+        <div className="flex flex-col text-xs self-end font-semibold text-gray">
           <div className="flex items-center gap-3">
             <span>Product Id:</span>
             <span>{_id}</span>
