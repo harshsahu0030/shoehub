@@ -13,10 +13,14 @@ export const AuthUserProvider = ({ children }) => {
   const { isSuccess, data, refetch, error, isError, isLoading } = useQuery({
     queryKey: ["load-user"],
     queryFn: loadUserApi,
-    refetchOnWindowFocus: false,
   });
 
   useLayoutEffect(() => {
+    if (isLoading) {
+      setCurrentUser({});
+      setIsUser(false);
+    }
+
     if (isSuccess) {
       setCurrentUser(data.data);
       setIsUser(true);
@@ -24,8 +28,10 @@ export const AuthUserProvider = ({ children }) => {
 
     if (isError) {
       toast.error(error.response.data.message);
+      setCurrentUser({});
+      setIsUser(false);
     }
-  }, [isSuccess, data, isError, error]);
+  }, [isSuccess, data, isError, error, isLoading]);
 
   return (
     <AuthContext.Provider

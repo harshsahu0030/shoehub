@@ -4,7 +4,7 @@ import Header from "./components/Header";
 import Menu from "./components/Menu";
 import Navbar from "./components/Navbar";
 import AdminNavbar from "./components/Admin/AdminNavbar";
-import { useContext } from "react";
+import { useContext, useEffect, useLayoutEffect } from "react";
 import { AuthContext } from "./context/Authuser";
 import Loader from "./components/loaders/Loader";
 
@@ -95,7 +95,11 @@ export const AuthenticatedUser = () => {
 };
 
 export const AdminUser = () => {
-  const { currentUser, isLoading } = useContext(AuthContext);
+  const { currentUser, isLoading, refetch } = useContext(AuthContext);
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   if (!isLoading) {
     if (currentUser.role === "admin") {

@@ -24,9 +24,11 @@ const AddtionalDetails = ({ product }) => {
     if (value === "show") {
       toggleCommentBoxRef.current.style.visibility = "visible";
       toggleCommentBoxRef.current.style.opacity = "1";
+      document.body.style.overflow = "hidden";
     } else {
       toggleCommentBoxRef.current.style.visibility = "hidden";
       toggleCommentBoxRef.current.style.opacity = "0";
+      document.body.style.overflow = "visible";
     }
   };
 

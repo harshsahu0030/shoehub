@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { profile_data } from "../data/profile";
 import MetaData from "../utils/MetaData";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { logoutUserApi } from "../app/api/userApi";
 import toast from "react-hot-toast";
 import { AuthContext } from "../context/Authuser";
@@ -12,26 +12,21 @@ import { AuthContext } from "../context/Authuser";
 const Profile = () => {
   const backToTopHanlder = useBackToTop();
   const navigate = useNavigate();
-  const { refetch: userRefetch } = useContext(AuthContext);
+  const { refetch } = useContext(AuthContext);
 
   //react queries
-  const { isError, isSuccess, data, error, refetch } = useQuery({
-    queryKey: ["logout-user"],
-    queryFn: logoutUserApi,
-    enabled: false,
-  });
+  const { mutate, isPending } = useMutation({
+    mutationFn: logoutUserApi,
 
-  //useEffect
-  useEffect(() => {
-    if (isError) {
+    onError: (error) => {
       toast.error(error.response.data.message);
-    }
-    if (isSuccess) {
+    },
+    onSuccess: (data) => {
       toast.success(data.message);
-      userRefetch();
-      navigate("/");
-    }
-  }, [isError, isSuccess, data, error, navigate, userRefetch]);
+      navigate(`/`);
+      refetch();
+    },
+  });
 
   useLayoutEffect(() => {
     backToTopHanlder();
@@ -65,12 +60,13 @@ const Profile = () => {
               </li>
             ))}
 
-          <li
+          <button
             className="capitalize text-lg font-medium p-4 border border-lightGray/60 rounded-lg hover:bg-red-400 transition-all flex justify-between items-center bg-red-300 cursor-pointer"
-            onClick={() => refetch()}
+            onClick={() => mutate()}
+            disabled={isPending}
           >
             Logout <MdOutlineKeyboardArrowRight className="text-2xl" />
-          </li>
+          </button>
         </ul>
       </div>
     </>
