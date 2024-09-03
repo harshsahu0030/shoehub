@@ -29,10 +29,12 @@ app.use(express.static("public"));
 //routes import
 import userRoute from "./routes/userRoute.js";
 import productRoute from "./routes/productRoute.js";
+import orderRoute from "./routes/orderRoute.js";
 
 //routes
 app.use("/api/v1", userRoute);
 app.use("/api/v1", productRoute);
+app.use("/api/v1", orderRoute);
 
 //connecting to frontend
 const __filename = fileURLToPath(import.meta.url);

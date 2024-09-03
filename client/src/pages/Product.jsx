@@ -23,7 +23,7 @@ const Product = () => {
     data: productData,
     error,
   } = useQuery({
-    queryKey: ["get-product"],
+    queryKey: ["get-product", id],
     queryFn: () => getProductsApi(id),
   });
 
@@ -56,7 +56,7 @@ const Product = () => {
 
   useLayoutEffect(() => {
     backToTopHanlder();
-  }, []);
+  }, [backToTopHanlder]);
 
   return !productData && isLoading ? (
     <Loader />

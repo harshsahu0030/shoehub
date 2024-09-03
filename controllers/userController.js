@@ -439,9 +439,51 @@ export const removeWishlistController = asyncHandler(async (req, res) => {
 export const getUserCartController = asyncHandler(async (req, res) => {
   const user = await UsersModel.findById(req.user._id).populate("cart.product");
 
-  return res
-    .status(200)
-    .json(new ApiResponse(200, { products: user.cart }, ""));
+  let cart = user.cart;
+
+  //total
+  let totalMrp = 0;
+  let discountOnMrp = 0;
+  let totalPrice = 0;
+  let shippingCharges = 0;
+  let estimatedTotal = 0;
+  let enable = false;
+
+  if (cart.length > 0) {
+    for (let i = 0; i < cart.length; i++) {
+      let q = cart[i].product.sizes.find((item) => item.size === cart[i].size);
+      if (q.stock >= cart[i].quantity) {
+        totalMrp += cart[i].quantity * cart[i].product.mrp;
+        totalPrice += cart[i].quantity * cart[i].product.price;
+        discountOnMrp = totalMrp - totalPrice;
+        if (totalPrice > 1500) {
+          shippingCharges = 0;
+        } else {
+          shippingCharges = 75;
+        }
+        estimatedTotal = totalPrice + shippingCharges;
+        enable = true;
+      } else {
+        enable = false;
+      }
+    }
+  }
+
+  return res.status(200).json(
+    new ApiResponse(
+      200,
+      {
+        totalMrp,
+        discountOnMrp,
+        totalPrice,
+        shippingCharges,
+        estimatedTotal,
+        enable,
+        products: cart,
+      },
+      ""
+    )
+  );
 });
 
 //add product from cart controller

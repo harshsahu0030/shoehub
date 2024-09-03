@@ -9,6 +9,8 @@ import { useMutation } from "@tanstack/react-query";
 import { forgotPasswordUserApi } from "../app/api/userApi";
 
 const ForgotPassword = () => {
+  const backToTopHanlder = useBackToTop();
+
   //states
   const [errors, setErrors] = useState({});
   const [forgotPasswordForm, setForgotPasswordForm] = useState({
@@ -62,10 +64,9 @@ const ForgotPassword = () => {
     }
   };
 
-  const backToTopHanlder = useBackToTop();
   useLayoutEffect(() => {
     backToTopHanlder();
-  }, []);
+  }, [backToTopHanlder]);
 
   return (
     <>

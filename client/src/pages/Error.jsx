@@ -14,7 +14,7 @@ const Error = () => {
 
   useLayoutEffect(() => {
     backToTopHanlder();
-  }, []);
+  }, [backToTopHanlder]);
 
   return (
     <>

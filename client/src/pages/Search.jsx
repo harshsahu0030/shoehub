@@ -6,7 +6,7 @@ const Search = () => {
   const backToTopHanlder = useBackToTop();
   useLayoutEffect(() => {
     backToTopHanlder();
-  }, []);
+  }, [backToTopHanlder]);
   return (
     <>
       <MetaData

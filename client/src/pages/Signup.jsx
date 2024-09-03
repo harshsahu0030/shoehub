@@ -81,7 +81,7 @@ const Signup = () => {
 
   useLayoutEffect(() => {
     backToTopHanlder();
-  }, []);
+  }, [backToTopHanlder]);
 
   return (
     <>

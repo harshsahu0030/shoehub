@@ -139,11 +139,11 @@ const Products = () => {
     setSearchParams(
       `?${keyword !== "" ? `&keyword=${keyword}` : ""}${
         gender !== "" ? `&g=${gender}` : ""
-      }${lRating ? `&ratl=${lRating}` : ""}${
-        discount ? `&dis=${discount}` : ""
-      }${color && color.length > 0 ? `&col=${color?.join(" ")}` : ""}${
-        lPrice ? `&lp=${value[0]}` : ""
-      }${hPrice ? `&hp=${value[1]}` : ""}${
+      }${category && category.length > 0 ? `&cat=${category?.join(" ")}` : ""}${
+        lRating ? `&ratl=${lRating}` : ""
+      }${discount ? `&dis=${discount}` : ""}${
+        color && color.length > 0 ? `&col=${color?.join(" ")}` : ""
+      }${lPrice ? `&lp=${value[0]}` : ""}${hPrice ? `&hp=${value[1]}` : ""}${
         sort !== "" ? `&sort=${sort?.split(",")?.join(" ")}` : ""
       }${page !== "" ? `&p=${page}` : ""}`
     );
@@ -215,11 +215,11 @@ const Products = () => {
     setSearchParams(
       `?${keyword !== "" ? `&keyword=${keyword}` : ""}${
         gender !== "" ? `&g=${gender}` : ""
-      }${lRating ? `&ratl=${lRating}` : ""}${
-        discount ? `&dis=${discount}` : ""
-      }${color && color.length > 0 ? `&col=${color?.join(" ")}` : ""}${
-        lPrice ? `&lp=${lPrice}` : ""
-      }${hPrice ? `&hp=${hPrice}` : ""}${
+      }${category && category.length > 0 ? `&cat=${category?.join(" ")}` : ""}${
+        lRating ? `&ratl=${lRating}` : ""
+      }${discount ? `&dis=${discount}` : ""}${
+        color && color.length > 0 ? `&col=${color?.join(" ")}` : ""
+      }${lPrice ? `&lp=${lPrice}` : ""}${hPrice ? `&hp=${hPrice}` : ""}${
         sort !== "" ? `&sort=${e.target.value?.split(",")?.join(" ")}` : ""
       }${page !== "" ? `&p=${page}` : ""}`
     );
@@ -231,11 +231,11 @@ const Products = () => {
     setSearchParams(
       `?${keyword !== "" ? `&keyword=${keyword}` : ""}${
         gender !== "" ? `&g=${gender}` : ""
-      }${lRating ? `&ratl=${lRating}` : ""}${
-        discount ? `&dis=${discount}` : ""
-      }${color && color.length > 0 ? `&col=${color?.join(" ")}` : ""}${
-        lPrice ? `&lp=${lPrice}` : ""
-      }${hPrice ? `&hp=${hPrice}` : ""}${
+      }${category && category.length > 0 ? `&cat=${category?.join(" ")}` : ""}${
+        lRating ? `&ratl=${lRating}` : ""
+      }${discount ? `&dis=${discount}` : ""}${
+        color && color.length > 0 ? `&col=${color?.join(" ")}` : ""
+      }${lPrice ? `&lp=${lPrice}` : ""}${hPrice ? `&hp=${hPrice}` : ""}${
         sort !== "" ? `&sort=${sort?.split(",")?.join(" ")}` : ""
       }${page !== "" ? `&p=${value}` : ""}`
     );
@@ -308,7 +308,7 @@ const Products = () => {
   //useLayout
   useLayoutEffect(() => {
     backToTopHanlder();
-  }, []);
+  }, [backToTopHanlder]);
   return (
     <>
       <MetaData

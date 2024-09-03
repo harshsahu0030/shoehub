@@ -43,17 +43,19 @@ const SliderGender = ({
           <ul className="flex flex-col gap-3 text-lg">
             <li
               className="capitalize font-semibold py-2 transition-all ease-in-out duration-200 flex items-center justify-between hover:bg-lightGray/20 px-4 border-b border-lightGray/40"
-              onClick={() => onClickLinkHandler("/products")}
+              onClick={() => onClickLinkHandler(`/products?g=${item.gender}`)}
             >
               {item.gender}
             </li>
-            {item.types?.map((item, i) => (
+            {item.types?.map((type, i) => (
               <li
                 key={i}
                 className="capitalize font-semibold py-2 transition-all ease-in-out duration-200 flex items-center justify-between hover:bg-lightGray/20 px-4 border-b border-lightGray/40"
-                onClick={() => onClickLinkHandler("/products")}
+                onClick={() =>
+                  onClickLinkHandler(`/products?g=${item.gender}&cat=${type}`)
+                }
               >
-                {item}
+                {type}
               </li>
             ))}
           </ul>

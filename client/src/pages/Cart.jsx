@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import useBackToTop from "../hook/useBackToTop";
 import MetaData from "../utils/MetaData";
 import { useQuery } from "@tanstack/react-query";
@@ -6,9 +6,43 @@ import { getUserCartApi } from "../app/api/userApi";
 import CartProductCard from "../components/cards/CartProductCard";
 import CartSubTotal from "../components/CartSubTotal";
 import toast from "react-hot-toast";
+import AddressForm from "../components/AddressForm";
+import * as Yup from "yup";
 
 const Cart = () => {
   const backToTopHanlder = useBackToTop();
+
+  //states
+  const [errors, setErrors] = useState({});
+  const [shippingInfoForm, setShippingInfoForm] = useState({
+    address: "",
+    city: "",
+    state: "",
+    pincode: "",
+    phoneNo: "",
+  });
+  const [finalShippingInfoForm, setFinalShippingInfoForm] = useState({});
+
+  //ref
+  const shippingInfoRef = useRef();
+
+  //errorHandling
+  const validationSchema = Yup.object({
+    address: Yup.string().required("Address is Required"),
+    city: Yup.string().required("City is Required"),
+    state: Yup.string().required("State is Required"),
+    pincode: Yup.number()
+      .typeError("That doesn't look like a pincode number")
+      .positive("A phone number can't start with a minus")
+      .min(6)
+      .required("A pincode is required"),
+    phoneNo: Yup.number()
+      .typeError("That doesn't look like a phone number")
+      .positive("A phone number can't start with a minus")
+      .integer("A phone number can't include a decimal point")
+      .min(10)
+      .required("A phone number is required"),
+  });
 
   //react-queries
   const {
@@ -22,6 +56,49 @@ const Cart = () => {
     queryFn: getUserCartApi,
     refetchOnWindowFocus: false,
   });
+
+  // functions
+  const handleShippingInfoBox = (value) => {
+    if (value === "show") {
+      shippingInfoRef.current.style.opacity = 1;
+      shippingInfoRef.current.style.visibility = "visible";
+      document.body.style.overflow = "hidden";
+    } else {
+      shippingInfoRef.current.style.opacity = 0;
+      shippingInfoRef.current.style.visibility = "hidden";
+      document.body.style.overflow = "visible";
+    }
+  };
+
+  const handleChange = (e) => {
+    setShippingInfoForm({
+      ...shippingInfoForm,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSetShippingInfo = async (e) => {
+    e.preventDefault();
+
+    try {
+      await validationSchema.validate(shippingInfoForm, { abortEarly: false });
+
+      setFinalShippingInfoForm({
+        ...shippingInfoForm,
+      });
+      handleShippingInfoBox();
+    } catch (error) {
+      const newErrors = {};
+
+      error.inner.forEach((err) => {
+        newErrors[err.path] = err.message;
+      });
+
+      setErrors(newErrors);
+    }
+  };
+
+  const handlePlaceOrder = () => {};
 
   //useEffect
   useEffect(() => {
@@ -45,6 +122,21 @@ const Cart = () => {
 
         <hr className="border-b-2 border-lightGray/50" />
 
+        {/* address form  */}
+        <div
+          ref={shippingInfoRef}
+          className="fixed top-0 left-0 opacity-0 invisible h-[100vh] w-[100%] bg-black/80 z-50 flex items-center justify-center transition-all ease-in-out duration-500"
+        >
+          <AddressForm
+            shippingInfoForm={shippingInfoForm}
+            setShippingInfoForm={setShippingInfoForm}
+            handleShippingInfoBox={handleShippingInfoBox}
+            handleChange={handleChange}
+            handleSetShippingInfo={handleSetShippingInfo}
+            errors={errors}
+          />
+        </div>
+
         <div className="flex flex-col-reverse lg:flex-row gap-10">
           {/* left */}
           <div className="w-[100%] lg:w-[65%] flex flex-col gap-5">
@@ -61,8 +153,12 @@ const Cart = () => {
           </div>
 
           {/* right  */}
-          <div className="w-[100%] lg:w-[30%]">
-            <CartSubTotal />
+          <div className="w-[100%] lg:w-[35%]">
+            <CartSubTotal
+              data={cartData?.data}
+              handleShippingInfoBox={handleShippingInfoBox}
+              finalShippingInfoForm={finalShippingInfoForm}
+            />
           </div>
         </div>
       </div>

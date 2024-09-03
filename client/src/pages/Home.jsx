@@ -13,7 +13,7 @@ const Home = () => {
 
   useLayoutEffect(() => {
     backToTopHanlder();
-  }, []);
+  }, [backToTopHanlder]);
   return (
     <>
       <MetaData

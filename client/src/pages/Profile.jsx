@@ -12,7 +12,7 @@ import { AuthContext } from "../context/Authuser";
 const Profile = () => {
   const backToTopHanlder = useBackToTop();
   const navigate = useNavigate();
-  const { refetch: loadRefetch } = useContext(AuthContext);
+  const { refetch: userRefetch } = useContext(AuthContext);
 
   //react queries
   const { isError, isSuccess, data, error, refetch } = useQuery({
@@ -28,14 +28,14 @@ const Profile = () => {
     }
     if (isSuccess) {
       toast.success(data.message);
+      userRefetch();
       navigate("/");
-      loadRefetch();
     }
-  }, [isError, isSuccess, data, error, navigate, loadRefetch]);
+  }, [isError, isSuccess, data, error, navigate, userRefetch]);
 
   useLayoutEffect(() => {
     backToTopHanlder();
-  }, []);
+  }, [backToTopHanlder]);
   return (
     <>
       <MetaData

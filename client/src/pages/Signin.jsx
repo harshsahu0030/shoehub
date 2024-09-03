@@ -71,7 +71,7 @@ const Signin = () => {
   const backToTopHanlder = useBackToTop();
   useLayoutEffect(() => {
     backToTopHanlder();
-  }, []);
+  }, [backToTopHanlder]);
 
   return (
     <>

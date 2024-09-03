@@ -58,7 +58,21 @@ const ProductCardSwiper = ({ data, loading, type }) => {
           className="h-[100%] w-[100%] overflow-hidden"
           onSlideChange={(swiper) => setSwiperchange(swiper.activeIndex)}
         >
-          {[...Array(width <= 640 ? 2 : width <= 1024 ? 3 : 4)].map((_, i) => (
+          {[
+            ...Array(
+              type === "similar"
+                ? width <= 640
+                  ? 2
+                  : width <= 1024
+                  ? 4
+                  : 6
+                : width <= 640
+                ? 2
+                : width <= 1024
+                ? 3
+                : 4
+            ),
+          ].map((_, i) => (
             <SwiperSlide key={i}>
               <ProductCardLoader />
             </SwiperSlide>

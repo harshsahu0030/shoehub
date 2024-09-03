@@ -24,7 +24,7 @@ const Wishlist = () => {
 
   useLayoutEffect(() => {
     backToTopHanlder();
-  }, []);
+  }, [backToTopHanlder]);
   return (
     <>
       <MetaData
@@ -37,7 +37,7 @@ const Wishlist = () => {
 
         <hr className="border-b-2 border-lightGray/50" />
 
-        <div className="grid grid-cols-5">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {!isLoading
             ? data && data?.data?.wishlist.length > 0
               ? data?.data?.wishlist.map((item) => (

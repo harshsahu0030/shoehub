@@ -89,7 +89,7 @@ const OtpVerification = () => {
 
   useLayoutEffect(() => {
     backToTopHanlder();
-  }, []);
+  }, [backToTopHanlder]);
 
   return (
     <>

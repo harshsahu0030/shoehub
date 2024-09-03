@@ -16,8 +16,6 @@ const ProductDetails = ({ product }) => {
     brand,
     title,
     mrp,
-    gender,
-    category,
     price,
     discount,
     sizes,
@@ -83,7 +81,9 @@ const ProductDetails = ({ product }) => {
         {/* heading  */}
         <div className="flex flex-col gap-1">
           <h4 className="text-lg font-bold uppercase">{brand}</h4>
-          <h1 className="text-3xl md:text-4xl font-semibold">{title}</h1>
+          <h1 className="text-3xl md:text-4xl font-semibold line-clamp-3">
+            {title}
+          </h1>
         </div>
 
         {/* category  */}

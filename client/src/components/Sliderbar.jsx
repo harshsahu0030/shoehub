@@ -107,12 +107,13 @@ const Sliderbar = ({ toggleSliderbarHandler }) => {
           <div className="flex flex-col gap-1 capitalize">
             {menuData &&
               menuData.categoryLinks.map((item, i) => (
-                <div
+                <Link
                   key={i}
+                  to={item.link}
                   className=" font-semibold py-2 transition-all ease-in-out duration-200 flex items-center justify-between hover:bg-lightGray/20 px-4"
                 >
                   {item.name}
-                </div>
+                </Link>
               ))}
           </div>
 
@@ -125,12 +126,13 @@ const Sliderbar = ({ toggleSliderbarHandler }) => {
           <div className="flex flex-col gap-1 capitalize">
             {menuData &&
               menuData.profileLinks.map((item, i) => (
-                <div
+                <Link
                   key={i}
+                  to={item.link}
                   className=" font-semibold py-2 transition-all ease-in-out duration-200 flex items-center justify-between hover:bg-lightGray/20 px-4"
                 >
                   {item.name}
-                </div>
+                </Link>
               ))}
           </div>
         </div>

@@ -75,7 +75,7 @@ const CartProductCard = ({ data, refetch }) => {
   };
 
   return (
-    <div className="flex gap-2 h-[30vh] md:h-[25vh] lg:h-[20vh] xl:h-[30vh] border border-lightGray/30 rounded-lg overflow-hidden hover:shadow-lg hover:shadow-lightGray-500/50 bg-lightGray/10 px-5">
+    <div className="flex gap-2 h-[30vh] md:h-[25vh] lg:h-[20vh] xl:h-[30vh] border border-lightGray/30 rounded-lg overflow-hidden hover:shadow-lg hover:shadow-lightGray-500/50 bg-lightGray/10 px-1 md:px-5">
       {/* top  */}
       <div className="h-full flex justify-center items-center w-[40%] bg-transparent">
         <img
@@ -133,13 +133,27 @@ const CartProductCard = ({ data, refetch }) => {
           >
             <FiPlus />
           </button>
+
+          {parseInt(
+            data?.product?.sizes?.find((item) => item.size === data.size).stock
+          ) < parseInt(data.quantity) && (
+            <span className="font-semibold text-xs text-red-500">
+              Not available
+            </span>
+          )}
         </div>
 
         <div className="flex justify-between items-center">
           {/* size  */}
-          <div className="flex items-center gap-1">
-            <span className="text-md font-semibold">Size : </span>
-            <span className="text-lg font-semibold">{data.size}</span>
+          <div className="flex items-center gap-5">
+            <span className="text-md font-semibold">Size : {data.size}</span>
+            <span className="text-xs font-medium text-orange-400 flex">
+              {
+                data?.product?.sizes?.find((item) => item.size === data.size)
+                  .stock
+              }
+              &nbsp;pieces left
+            </span>
           </div>
 
           <button

@@ -87,7 +87,7 @@ const AddComment = ({ id, handleHide }) => {
 
   return (
     <form
-      className="flex flex-col gap-5  w-[40%] bg-white rounded-lg p-10"
+      className="flex flex-col gap-5  w-[90%] md:w-[50%] xl:w-[40%] bg-white rounded-lg p-10"
       onSubmit={handleSubmit}
     >
       <div className="flex justify-between">
