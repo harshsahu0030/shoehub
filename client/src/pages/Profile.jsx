@@ -1,4 +1,4 @@
-import { useContext, useEffect, useLayoutEffect } from "react";
+import { useContext, useLayoutEffect } from "react";
 import useBackToTop from "../hook/useBackToTop";
 import { Link, useNavigate } from "react-router-dom";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";

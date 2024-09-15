@@ -4,6 +4,11 @@ const CartSubTotal = ({
   data,
   handleShippingInfoBox,
   finalShippingInfoForm,
+  handlePlaceOrder,
+  isPending,
+  razorpayKeyisLoading,
+  razorpayKeyError,
+  checkoutData,
 }) => {
   return (
     <div className="h-fit w-full flex flex-col gap-6 border rounded-lg px-3 py-6">
@@ -116,10 +121,18 @@ const CartSubTotal = ({
         <button
           className="flex justify-self-end justify-center items-center py-2 border rounded-lg bg-yellow-400 font-bold hover:bg-yellow-500 transition-all disabled:bg-lightGray disabled:cursor-not-allowed"
           disabled={
-            !data?.enable || Object.keys(finalShippingInfoForm).length === 0
+            !data?.enable ||
+            Object.keys(finalShippingInfoForm).length === 0 ||
+            isPending ||
+            razorpayKeyisLoading
           }
+          onClick={() => handlePlaceOrder()}
         >
-          Place Order
+          {isPending
+            ? "Loading..."
+            : checkoutData?.data
+            ? "Checkout"
+            : "Place Order"}
         </button>
         {!data?.enable && (
           <span className="text-sm font-medium text-red-500">
@@ -131,6 +144,11 @@ const CartSubTotal = ({
             InComplete Address (Please update your address)
           </span>
         )}
+        {razorpayKeyError && (
+          <span className="text-sm font-medium text-red-500">
+            Something went wrong (In payment system)
+          </span>
+        )}
       </div>
     </div>
   );
@@ -139,7 +157,12 @@ const CartSubTotal = ({
 CartSubTotal.propTypes = {
   data: propTypes.object,
   finalShippingInfoForm: propTypes.object,
+  checkoutData: propTypes.object,
+  razorpayKeyError: propTypes.object,
   handleShippingInfoBox: propTypes.func,
+  handlePlaceOrder: propTypes.func,
+  isPending: propTypes.bool,
+  razorpayKeyisLoading: propTypes.bool,
 };
 
 export default CartSubTotal;

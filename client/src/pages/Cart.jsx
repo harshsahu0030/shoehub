@@ -1,16 +1,32 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import {
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import useBackToTop from "../hook/useBackToTop";
 import MetaData from "../utils/MetaData";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { getUserCartApi } from "../app/api/userApi";
 import CartProductCard from "../components/cards/CartProductCard";
 import CartSubTotal from "../components/CartSubTotal";
 import toast from "react-hot-toast";
 import AddressForm from "../components/AddressForm";
 import * as Yup from "yup";
+import Logo from "/logo.png";
+import {
+  checkoutOrderApi,
+  createOrderApi,
+  getRazorpayApiKeyApi,
+} from "../app/api/orderApi";
+import { AuthContext } from "../context/Authuser";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const backToTopHanlder = useBackToTop();
+  const { currentUser, refetch: userRefetch } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   //states
   const [errors, setErrors] = useState({});
@@ -57,6 +73,86 @@ const Cart = () => {
     refetchOnWindowFocus: false,
   });
 
+  const {
+    isError: razorpayKeyisError,
+    data: razorpayKeyData,
+    error: razorpayKeyError,
+    isLoading: razorpayKeyisLoading,
+  } = useQuery({
+    queryKey: ["get-razorpay-key"],
+    queryFn: getRazorpayApiKeyApi,
+    refetchOnWindowFocus: false,
+  });
+
+  const { mutate: createOrderMutation } = useMutation({
+    mutationFn: createOrderApi,
+
+    onError: (error) => {
+      toast.error(error.response.data.message);
+    },
+    onSuccess: (data) => {
+      toast.success(data.message);
+      userRefetch();
+      navigate("/orders");
+    },
+  });
+
+  const {
+    mutate: checkoutMutation,
+    isPending,
+    data: checkoutData,
+  } = useMutation({
+    mutationFn: checkoutOrderApi,
+
+    onError: (error) => {
+      toast.error(error.response.data.message);
+    },
+    onSuccess: (data) => {
+      toast.success(data.message);
+
+      const options = {
+        key: razorpayKeyData?.data?.key,
+        amount: data?.data?.amount,
+        currency: "INR",
+        name: "Shoehub",
+        description: "payment system",
+        image: Logo,
+        order_id: data?.data?.id,
+        handler: function (response) {
+          createOrderMutation({
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_signature: response.razorpay_signature,
+            address: finalShippingInfoForm,
+          });
+        },
+        prefill: {
+          name: currentUser?.username,
+          email: currentUser?.email,
+          contact: finalShippingInfoForm?.phoneNo,
+        },
+        notes: {
+          address: "Razorpay Corporate Office",
+        },
+        theme: {
+          color: "#121212",
+        },
+      };
+
+      const rzp1 = new window.Razorpay(options);
+      rzp1.on("payment.failed", function (response) {
+        alert(response.error.code);
+        alert(response.error.description);
+        alert(response.error.source);
+        alert(response.error.step);
+        alert(response.error.reason);
+        alert(response.error.metadata.order_id);
+        alert(response.error.metadata.payment_id);
+      });
+      rzp1.open();
+    },
+  });
+
   // functions
   const handleShippingInfoBox = (value) => {
     if (value === "show") {
@@ -98,14 +194,29 @@ const Cart = () => {
     }
   };
 
-  const handlePlaceOrder = () => {};
+  const handlePlaceOrder = async () => {
+    checkoutMutation({ amount: cartData.data.totalPrice });
+
+    // const options = {
+    //   key: razorpayKeyData?.data?.key,
+    //   amount: checkoutData?.data?.amount,
+    //   currency: "INR",
+    //   order_id: checkoutData?.data?.id,
+    //   callback_url: "http://localhost:4000/api/paymentverification",
+    //   shippingInfo: finalShippingInfoForm,
+    //   products: cartData?.data?.products,
+    // };
+  };
 
   //useEffect
   useEffect(() => {
     if (isError) {
       toast.error(error.response.data.message);
     }
-  }, [isError, error]);
+    if (razorpayKeyisError) {
+      toast.error(razorpayKeyError.response.data.message);
+    }
+  }, [isError, error, razorpayKeyError, razorpayKeyisError]);
 
   useLayoutEffect(() => {
     backToTopHanlder();
@@ -158,6 +269,11 @@ const Cart = () => {
               data={cartData?.data}
               handleShippingInfoBox={handleShippingInfoBox}
               finalShippingInfoForm={finalShippingInfoForm}
+              handlePlaceOrder={handlePlaceOrder}
+              isPending={isPending}
+              razorpayKeyisLoading={razorpayKeyisLoading}
+              razorpayKeyError={razorpayKeyError}
+              checkoutData={checkoutData}
             />
           </div>
         </div>

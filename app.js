@@ -5,13 +5,25 @@ import path from "path";
 import { fileURLToPath } from "url";
 import middleware from "./middlewares/error.js";
 import { v2 as cloudinary } from "cloudinary";
+import Razorpay from "razorpay";
+import dotenv from "dotenv";
 
 const app = express();
 
+//dotenv
+dotenv.config({ path: "./config/config.env" });
+
+//cloudinary
 cloudinary.config({
-  cloud_name: "deloi6s5p",
-  api_key: "412422891469958",
-  api_secret: "eWRjI-sjtYVXtjPAWCg5PboW2Zg", // Click 'View API Keys' above to copy your API secret
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET,
+});
+
+//razorpay
+export const instance = new Razorpay({
+  key_id: process.env.RAZORPAY_API_KEY,
+  key_secret: process.env.RAZORPAY_API_SECRET,
 });
 
 //middlewars
@@ -30,11 +42,13 @@ app.use(express.static("public"));
 import userRoute from "./routes/userRoute.js";
 import productRoute from "./routes/productRoute.js";
 import orderRoute from "./routes/orderRoute.js";
+import paymenyRoute from "./routes/paymenyRoute.js";
 
 //routes
 app.use("/api/v1", userRoute);
 app.use("/api/v1", productRoute);
 app.use("/api/v1", orderRoute);
+app.use("/api/v1", paymenyRoute);
 
 //connecting to frontend
 const __filename = fileURLToPath(import.meta.url);

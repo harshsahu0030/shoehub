@@ -3,6 +3,7 @@ import propTypes from "prop-types";
 import { useQuery } from "@tanstack/react-query";
 import { loadUserApi } from "../app/api/userApi";
 import toast from "react-hot-toast";
+import Loader from "../components/loaders/Loader";
 
 export const AuthContext = createContext();
 
@@ -33,7 +34,9 @@ export const AuthUserProvider = ({ children }) => {
     }
   }, [isSuccess, data, isError, error, isLoading]);
 
-  return (
+  return isLoading ? (
+    <Loader />
+  ) : (
     <AuthContext.Provider
       value={{
         currentUser,
